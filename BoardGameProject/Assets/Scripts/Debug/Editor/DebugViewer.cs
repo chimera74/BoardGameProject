@@ -5,7 +5,6 @@ namespace Assets.Scripts.Debug.Editor
 {
     public class DebugViewer : EditorWindow
     {
-
         DropSite ds = null;
         Vector3 tablePos = Vector3.zero;
 
@@ -16,13 +15,10 @@ namespace Assets.Scripts.Debug.Editor
         }
 
 
-
         void OnGUI()
-        { 
-
+        {
             PrintCoords(tablePos);
             PrintDropSite(ds);
-
         }
 
         public void PrintCoords(Vector3 vect)
@@ -46,6 +42,7 @@ namespace Assets.Scripts.Debug.Editor
             //should be called when drawing the scene.
             SceneView.duringSceneGui += OnSceneGUI;
         }
+
         private void OnDisable()
         {
             //cleanup: when the window is gone
@@ -62,31 +59,25 @@ namespace Assets.Scripts.Debug.Editor
         private void OnSceneGUI(SceneView sv)
         {
 
+            var tbl = FindObjectOfType<Table>();
+            if (tbl == null)
+                return;
+
             ds = null;
             tablePos = Vector3.zero;
 
+            Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
 
-                //                Ray ray = Camera.current.ScreenPointToRay(Event.current.mousePosition);
+            Collider tableCollider = tbl.GetComponent<Collider>();
 
-
-                //            Vector3 mousePos = Event.current.mousePosition;
-                //            mousePos.y = SceneView.lastActiveSceneView.camera.pixelHeight - mousePos.y;
-                //            Ray ray = SceneView.lastActiveSceneView.camera.ScreenPointToRay(mousePos);
-
-                Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-
-                Collider tableCollider = FindObjectOfType<Table>().GetComponent<Collider>();
-                if (tableCollider.Raycast(ray, out var hit, Mathf.Infinity))
+            if (tableCollider.Raycast(ray, out var hit, Mathf.Infinity))
+            {
+                tablePos = hit.point;
+                if (RaycastingHelper.RaycastToDropSites(out var hit2, tablePos))
                 {
-                    tablePos = hit.point;
-                    if (RaycastingHelper.RaycastToDropSites(out var hit2, tablePos))
-                    {
-                        ds = hit2.transform.GetComponent<DropSite>();
-
-                    }
+                    ds = hit2.transform.GetComponent<DropSite>();
                 }
-
-           
+            }
         }
     }
 }
