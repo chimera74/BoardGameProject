@@ -11,10 +11,11 @@ namespace Assets.Scripts.Objects
 {
     public class CardAnimationScript : MonoBehaviour
     {
-
         public float snapSpeed = 1.0f;
         public float cursorFollowSpeed = 0.4f;
         public float minSpeed = 0.005f;
+        public float tiltPower = 5.0f;
+        public float maxTiltAngle = 30.0f;
 
         public MoveType movementType = MoveType.None;
 
@@ -22,8 +23,9 @@ namespace Assets.Scripts.Objects
         protected CardBehaviour cb;
         protected Table table;
         protected Transform root;
-            
+
         public Vector3 targetPosition;
+        public float tiltAngle;
 
         protected void Awake()
         {
@@ -80,9 +82,33 @@ namespace Assets.Scripts.Objects
             }
         }
 
+        protected void LateUpdate()
+        {
+            ProcessTilt();
+        }
+
+        public void ProcessTilt()
+        {
+            if (movementType == MoveType.CursorFollow)
+            {
+                tiltAngle = tiltPower * (targetPosition - root.position).magnitude;
+                var direction = (targetPosition - root.position).normalized;
+                direction.z = -direction.z;
+                if (!cb.cardData.IsFaceUp)
+                    direction.x = -direction.x;
+
+                if (tiltAngle > maxTiltAngle)
+                    tiltAngle = maxTiltAngle;
+
+                var axis = Vector3.Cross(direction, transform.up);
+
+                SetFaceUpToModel();
+                transform.Rotate(axis, tiltAngle);
+            }
+        }
+
         public void MoveToModelPosition()
         {
-            // Define a target position above and behind the target transform
             targetPosition = new Vector3(cb.cardData.Position.x, root.position.y, cb.cardData.Position.y);
             movementType = MoveType.Snap;
         }
@@ -96,6 +122,7 @@ namespace Assets.Scripts.Objects
         {
             if (movementType == MoveType.CursorFollow)
                 movementType = MoveType.None;
+            SetFaceUpToModel();
         }
 
         public void StartHover()
@@ -108,7 +135,23 @@ namespace Assets.Scripts.Objects
             anim.SetBool("IsHovering", false);
         }
 
-        
+        public void SetFaceUpToModel()
+        {
+            if (cb.cardData.IsFaceUp)
+                SetFaceUp();
+            else
+                SetFaceDown();
+        }
+
+        private void SetFaceUp()
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
+
+        private void SetFaceDown()
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
     public enum MoveType

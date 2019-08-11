@@ -145,8 +145,11 @@ MonoBehaviour:
   snapSpeed: 1
   cursorFollowSpeed: 0.2
   minSpeed: 0.003
+  tiltPower: 10
+  maxTiltAngle: 20
   movementType: 0
   targetPosition: {x: 0, y: 0, z: 0}
+  tiltAngle: 0
 --- !u!1 &1550130829178118
 GameObject:
   m_ObjectHideFlags: 0
