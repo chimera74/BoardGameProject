@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Scripts.Objects;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.DropSites
 {
     public abstract class DropSite : MonoBehaviour
     {

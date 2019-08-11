@@ -25,7 +25,7 @@ namespace Assets.Scripts
 
         public void Start()
         {
-
+            transform.position = new Vector3(defaultXOffset, defaultHeight, defaultZOffset);
         }
 
         public void LateUpdate()

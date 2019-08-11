@@ -9,9 +9,19 @@ namespace Assets.Scripts.DataModel
 {
     public class BaseObject
     {
+        public event Action OnPositionChanged;
 
         public Guid GUID { get; }
-        public Vector2 Position { get; set; }
+
+        private Vector2 _position;
+        public Vector2 Position {
+            get { return _position; }
+            set
+            {
+                _position = value;
+                OnPositionChanged?.Invoke();
+            }
+        }
         public Player Owner { get; set; }
 
         public BaseObject()

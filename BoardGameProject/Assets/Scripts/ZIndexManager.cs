@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Objects;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -41,7 +42,7 @@ namespace Assets.Scripts
             float yPos = yDelta * order;
             if (yPos < yDelta)
                 yPos = yDelta;
-            card.transform.localPosition = new Vector3(card.transform.localPosition.x, yPos, card.transform.localPosition.z);
+            card.transform.parent.localPosition = new Vector3(card.transform.parent.localPosition.x, yPos, card.transform.parent.localPosition.z);
         }
 
         public void RefreshAllPositions()

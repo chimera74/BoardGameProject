@@ -1,13 +1,9 @@
-﻿using Assets.Scripts;
-using Assets.Scripts.DataModel;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.Scripts.DataModel;
 using Assets.Scripts.Debug;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Objects
 {
     public class CardBehaviour : MonoBehaviour, IPointerClickHandler
     {
@@ -27,16 +23,21 @@ namespace Assets.Scripts
         protected Renderer rend;
         protected ZIndexManager zim;
         protected DragAndDropManager dndm;
+        protected CardAnimationScript cas;
 
-
+//        protected SimpleActionQueue _lateUpdateAQ;
 
         protected void Awake()
         {
+//            _lateUpdateAQ = new SimpleActionQueue();
             table = FindObjectOfType<Table>();
             root = transform.parent.GetComponent<Transform>();
             rend = GetComponent<Renderer>();
             zim = FindObjectOfType<ZIndexManager>();
             dndm = FindObjectOfType<DragAndDropManager>();
+            cas = GetComponent<CardAnimationScript>();
+
+
         }
 
         protected void Start()
@@ -48,9 +49,14 @@ namespace Assets.Scripts
             DisableDropSite();
         }
 
-        void Update()
+        protected void Update()
         {
 
+        }
+
+        protected void LateUpdate()
+        {
+//            _lateUpdateAQ.InvokeAll();
         }
 
         public void OnDestroy()
@@ -109,10 +115,10 @@ namespace Assets.Scripts
 
         #region Card dragging
         // Card Dragging
-        private bool isDragMode;
-        private Vector3 dragOffset;
-        private Vector3 dragStartPosition;
-        private Vector3 dragStartObjPosition;
+        private bool _isDragMode;
+        private Vector3 _dragOffset;
+        private Vector3 _dragStartPosition;
+        private Vector3 _dragStartObjPosition;
 
         private void Drag_OnMouseDown()
         {
@@ -122,9 +128,9 @@ namespace Assets.Scripts
             if (hit != null)
             {
                 // hitpoint + offset is a new position of an object
-                dragStartPosition = hit.Value.point;
-                dragStartObjPosition = root.position;
-                dragOffset = root.position - dragStartPosition;
+                _dragStartPosition = hit.Value.point;
+                _dragStartObjPosition = root.position;
+                _dragOffset = root.position - _dragStartPosition;
             }
         }
 
@@ -137,46 +143,57 @@ namespace Assets.Scripts
 
             var hitPoint = hit.Value.point;
 
-            if (!isDragMode)
+            if (!_isDragMode)
             {
-                if (Vector3.Distance(hitPoint, dragStartPosition) > dragTriggerDelta)
+                if (Vector3.Distance(hitPoint, _dragStartPosition) > dragTriggerDelta)
                 {
+                    cas.targetPosition = new Vector3(hitPoint.x, root.position.y, hitPoint.z);
                     StartDrag();
                 }
             }
             else
             {
-                // hitpoint + offset is a new position of an object
-                var newPos = hitPoint + dragOffset;
-                root.position = new Vector3(newPos.x, newPos.y + hoverHeight, newPos.z);
+                cas.targetPosition = new Vector3(hitPoint.x, root.position.y, hitPoint.z);
             }
         }
 
         private void StartDrag()
         {
-            isDragMode = true;
+            _isDragMode = true;
             dndm.TriggerOnDragStart();
             DisableDropSite();
+            cas.StartHover();
+            cas.StartCursorFollow();
         }
 
         private void StopDrag()
         {
-            if (!isDragMode)
+            if (!_isDragMode)
                 return;
 
-            var dropPos = new Vector3(root.position.x, table.transform.position.y, root.position.z);
-            if (dndm.PutCardAt(this, dropPos, dragStartObjPosition))
+            // raycast to table
+            RaycastHit? hit = RaycastingHelper.RaycastCursorTo(table.outsideTableCollider);
+            if (hit == null)
+                return;
+
+            var hitPoint = hit.Value.point;
+
+            var dropPos = new Vector3(hitPoint.x, table.transform.position.y, hitPoint.z);
+            if (dndm.PutCardAt(this, dropPos, _dragStartObjPosition))
             {
-                isDragMode = false;
+                _isDragMode = false;
                 zim.PutOnTop(this);
+                cas.MoveToModelPosition();
                 EnableDropSite();
             }
             dndm.TriggerOnDragStop();
+            cas.StopHover();
+            cas.StopCursorFollow();
         }
 
         public void EnableDropSite()
         {
-            if (!isDragMode)
+            if (!_isDragMode)
                 dropSite.SetActive(true);
         }
 
@@ -219,5 +236,11 @@ namespace Assets.Scripts
         {
 
         }
+
+        #region Animations
+
+
+
+        #endregion
     }
 }

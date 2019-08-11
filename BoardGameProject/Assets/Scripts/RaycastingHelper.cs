@@ -11,17 +11,8 @@ namespace Assets.Scripts
         public static RaycastHit? RaycastCursorTo(Collider targetObjectCollider)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit[] hits;
-            hits = Physics.RaycastAll(ray, 100.0F);
-
-            for (int i = 0; i < hits.Length; i++)
-            {
-                if (hits[i].collider == targetObjectCollider)
-                {
-                    return hits[i];
-                }
-            }
-            return null;
+            targetObjectCollider.Raycast(ray, out var hit, Mathf.Infinity);
+            return hit;
         }
 
         public static bool RaycastToDropSites(out RaycastHit hit, Vector3 pos)

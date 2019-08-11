@@ -1,11 +1,9 @@
-﻿using Assets.Scripts.DataModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using Assets.Scripts.DataModel;
+using Assets.Scripts.Objects;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.DropSites
 {
     public class CardDropSite : DropSite
     {

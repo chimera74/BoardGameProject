@@ -1,11 +1,7 @@
-﻿using Assets.Scripts.DataModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Scripts.Objects;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.DropSites
 {
     public class TableDropSite : DropSite
     {
@@ -19,7 +15,7 @@ namespace Assets.Scripts
 
         public override bool DropCard(CardBehaviour droppingCard, Vector3 position)
         {
-            droppingCard.transform.parent.position = position;
+            droppingCard.cardData.Position = new Vector2(position.x, position.z);
             return true;
         }
 

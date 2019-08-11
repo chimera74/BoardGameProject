@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.DropSites;
+using Assets.Scripts.Objects;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -13,14 +15,12 @@ namespace Assets.Scripts
 
         public void TriggerOnDragStart()
         {
-            if (OnDragStart != null)
-                OnDragStart();
+            OnDragStart?.Invoke();
         }
 
         public void TriggerOnDragStop()
         {
-            if (OnDragStop != null)
-                OnDragStop();
+            OnDragStop?.Invoke();
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Assets.Scripts
         /// then cards/decks are combined.
         /// </summary>
         /// <returns>
-        /// False if card object was destroyed, true if it still exisits.
+        /// False if card object was destroyed, true if it still exists.
         /// </returns>
         public bool PutCardAt(CardBehaviour card, Vector3 pos, Vector3 originalPos)
         {
@@ -43,8 +43,6 @@ namespace Assets.Scripts
             }
             else
             {
-                // revert to original position
-                card.transform.parent.position = originalPos;
                 return true;
             }
         }
@@ -54,7 +52,7 @@ namespace Assets.Scripts
         /// then cards/decks are combined.
         /// </summary>
         /// <returns>
-        /// False if deck object was destroyed, true if it still exisits.
+        /// False if deck object was destroyed, true if it still exists.
         /// </returns>
         public bool PutDeckAt(DeckBehaviour deck, Vector3 pos, Vector3 originalPos)
         {
