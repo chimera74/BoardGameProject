@@ -147,9 +147,16 @@ MonoBehaviour:
   minSpeed: 0.003
   tiltPower: 10
   maxTiltAngle: 20
+  flipSpeed: 500
+  flipHeight: 0.52
+  testAC:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   movementType: 0
   targetPosition: {x: 0, y: 0, z: 0}
-  tiltAngle: 0
 --- !u!1 &1550130829178118
 GameObject:
   m_ObjectHideFlags: 0

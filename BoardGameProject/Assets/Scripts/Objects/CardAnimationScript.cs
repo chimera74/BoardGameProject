@@ -16,6 +16,10 @@ namespace Assets.Scripts.Objects
         public float minSpeed = 0.005f;
         public float tiltPower = 5.0f;
         public float maxTiltAngle = 30.0f;
+        public float flipSpeed = 10.0f;
+        public float flipHeight = 1.0f; // should be at least half width of the card
+
+        public AnimationCurve testAC;
 
         public MoveType movementType = MoveType.None;
 
@@ -24,8 +28,10 @@ namespace Assets.Scripts.Objects
         protected Table table;
         protected Transform root;
 
-        public Vector3 targetPosition;
-        public float tiltAngle;
+        [HideInInspector] public Vector3 targetPosition;
+
+        private Quaternion _endFlipRot;
+        private bool _isFlipping = false;
 
         protected void Awake()
         {
@@ -47,6 +53,18 @@ namespace Assets.Scripts.Objects
 
         protected void Update()
         {
+            ProcessSnap();
+            ProcessCursorFollow();
+        }
+
+        protected void LateUpdate()
+        {
+            ProcessFlip();
+            ProcessTilt();
+        }
+
+        private void ProcessSnap()
+        {
             if (movementType == MoveType.Snap)
             {
                 var direction = (targetPosition - root.position).normalized;
@@ -62,7 +80,10 @@ namespace Assets.Scripts.Objects
                     root.position += delta;
                 }
             }
+        }
 
+        private void ProcessCursorFollow()
+        {
             if (movementType == MoveType.CursorFollow)
             {
                 var speed = cursorFollowSpeed * (targetPosition - root.position).magnitude;
@@ -82,16 +103,14 @@ namespace Assets.Scripts.Objects
             }
         }
 
-        protected void LateUpdate()
+        private void ProcessTilt()
         {
-            ProcessTilt();
-        }
+            if (_isFlipping)
+                return;
 
-        public void ProcessTilt()
-        {
             if (movementType == MoveType.CursorFollow)
             {
-                tiltAngle = tiltPower * (targetPosition - root.position).magnitude;
+                var tiltAngle = tiltPower * (targetPosition - root.position).magnitude;
                 var direction = (targetPosition - root.position).normalized;
                 direction.z = -direction.z;
                 if (!cb.cardData.IsFaceUp)
@@ -135,7 +154,7 @@ namespace Assets.Scripts.Objects
             anim.SetBool("IsHovering", false);
         }
 
-        public void SetFaceUpToModel()
+        private void SetFaceUpToModel()
         {
             if (cb.cardData.IsFaceUp)
                 SetFaceUp();
@@ -143,17 +162,52 @@ namespace Assets.Scripts.Objects
                 SetFaceDown();
         }
 
+        protected readonly Quaternion FACE_UP_ROTATION = Quaternion.Euler(0, 0, 180);
+        protected readonly Quaternion FACE_DOWN_ROTATION = Quaternion.Euler(0, 0, 0);
+
         private void SetFaceUp()
         {
-            transform.rotation = Quaternion.Euler(0, 0, 180);
+            transform.rotation = FACE_UP_ROTATION;
         }
 
         private void SetFaceDown()
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            transform.rotation = FACE_DOWN_ROTATION;
+        }
+
+        public void Flip()
+        {
+//            startFlipRot = transform.rotation;
+            _endFlipRot = cb.cardData.IsFaceUp ? FACE_UP_ROTATION : FACE_DOWN_ROTATION;
+            _isFlipping = true;
+//            timeCount = 0;
+        }
+
+        private void ProcessFlip()
+        {
+            if (!_isFlipping)
+                return;
+
+            if (transform.rotation != _endFlipRot)
+            {
+                var step = flipSpeed * Time.deltaTime;
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, _endFlipRot, step);
+
+                // rise and lower the card during flip
+                
+                var devAngle = Quaternion.Angle(transform.rotation, FACE_DOWN_ROTATION);
+                var t = Mathf.Pow(devAngle - 90, 2) / -8100 + 1; // Parabola
+                float height = Mathf.Lerp(0, flipHeight, t);
+                transform.position = new Vector3(transform.position.x, height, transform.position.z);
+            }
+            else
+            {
+                _isFlipping = false;
+            }
         }
     }
 
+    
     public enum MoveType
     {
         None,

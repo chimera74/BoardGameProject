@@ -211,25 +211,12 @@ namespace Assets.Scripts.Objects
         public void SetFaceUp(bool isFaceUp)
         {
             cardData.IsFaceUp = isFaceUp;
-            if (isFaceUp)
-                PutFaceUp();
-            else
-                PutFaceDown();
+            cas.Flip();
         }
 
         public void FlipCard()
         {
             SetFaceUp(!cardData.IsFaceUp);
-        }
-
-        private void PutFaceUp()
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 180);
-        }
-
-        private void PutFaceDown()
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
 
         public virtual void UpdateTextures()
