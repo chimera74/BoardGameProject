@@ -68,9 +68,13 @@ namespace Assets.Scripts.Objects
 
         void OnMouseOver()
         {
-            if (Input.GetKeyUp(KeyCode.I))
+            if (Input.GetButtonDown("DebugInfo"))
             {
                 DebugPrinter.PrintCardInfo(cardData);
+            }
+            if (!_isDragMode && Input.GetButtonDown("Flip"))
+            {
+                FlipCard();
             }
         }
 
@@ -105,7 +109,7 @@ namespace Assets.Scripts.Objects
 
         private void OnLeftMouseDoubleClick(PointerEventData pointerEventData)
         {
-            FlipCard();
+//            FlipCard();
         }
 
         private void OnRightMouseClick(PointerEventData pointerEventData)
@@ -154,6 +158,10 @@ namespace Assets.Scripts.Objects
             else
             {
                 cas.targetPosition = new Vector3(hitPoint.x, root.position.y, hitPoint.z);
+                if (Input.GetButtonDown("Flip"))
+                {
+                    FlipCard();
+                }
             }
         }
 

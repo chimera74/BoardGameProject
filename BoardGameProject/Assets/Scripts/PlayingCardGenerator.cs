@@ -29,11 +29,11 @@ namespace Assets.Scripts
 
         public void Update()
         {
-            if (Input.GetKeyUp(KeyCode.G))
+            if (Input.GetButtonDown("Generate Card"))
             {
                 GenerateRandomPlayingCard(new Vector3(), true);
             }
-            if (Input.GetKeyUp(KeyCode.H))
+            if (Input.GetButtonDown("Generate Deck"))
             {
                 GeneratePlayingCardDeck(new Vector3(), true, false);
             }

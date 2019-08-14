@@ -33,6 +33,9 @@ namespace Assets.Scripts.Objects
         private Quaternion _endFlipRot;
         private bool _isFlipping = false;
 
+        protected readonly Quaternion FACE_UP_ROTATION = Quaternion.Euler(0, 0, 180);
+        protected readonly Quaternion FACE_DOWN_ROTATION = Quaternion.Euler(0, 0, 0);
+
         protected void Awake()
         {
             root = transform.parent;
@@ -162,9 +165,6 @@ namespace Assets.Scripts.Objects
                 SetFaceDown();
         }
 
-        protected readonly Quaternion FACE_UP_ROTATION = Quaternion.Euler(0, 0, 180);
-        protected readonly Quaternion FACE_DOWN_ROTATION = Quaternion.Euler(0, 0, 0);
-
         private void SetFaceUp()
         {
             transform.rotation = FACE_UP_ROTATION;
@@ -177,10 +177,13 @@ namespace Assets.Scripts.Objects
 
         public void Flip()
         {
-//            startFlipRot = transform.rotation;
             _endFlipRot = cb.cardData.IsFaceUp ? FACE_UP_ROTATION : FACE_DOWN_ROTATION;
             _isFlipping = true;
-//            timeCount = 0;
+        }
+
+        private void ProcessFlip_Update()
+        {
+
         }
 
         private void ProcessFlip()
@@ -194,15 +197,18 @@ namespace Assets.Scripts.Objects
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, _endFlipRot, step);
 
                 // rise and lower the card during flip
-                
+                float startHeight = transform.position.y;
+                float maxHeight = flipHeight > startHeight ? flipHeight : startHeight;
+
                 var devAngle = Quaternion.Angle(transform.rotation, FACE_DOWN_ROTATION);
                 var t = Mathf.Pow(devAngle - 90, 2) / -8100 + 1; // Parabola
-                float height = Mathf.Lerp(0, flipHeight, t);
+                float height = Mathf.Lerp(startHeight, maxHeight, t);
                 transform.position = new Vector3(transform.position.x, height, transform.position.z);
             }
             else
             {
                 _isFlipping = false;
+                SetFaceUpToModel();
             }
         }
     }

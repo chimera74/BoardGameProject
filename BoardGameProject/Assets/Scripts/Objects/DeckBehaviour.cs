@@ -64,7 +64,7 @@ namespace Assets.Scripts
 
         void OnMouseOver()
         {
-            if (Input.GetKeyUp(KeyCode.I))
+            if (Input.GetButtonDown("DebugInfo"))
             {
                 DebugPrinter.PrintDeckInfo(deckData);
             }
