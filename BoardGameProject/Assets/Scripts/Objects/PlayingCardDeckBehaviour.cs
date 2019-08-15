@@ -1,16 +1,13 @@
 ﻿using Assets.Scripts.DataModel;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Objects
 {
     public class PlayingCardDeckBehaviour : DeckBehaviour
     {
 
         protected PlayingCardGenerator pcg;
 
-        public new void Awake()
+        protected override void Awake()
         {
             base.Awake();
             pcg = FindObjectOfType<PlayingCardGenerator>();
@@ -18,7 +15,7 @@ namespace Assets.Scripts
 
         public override void UpdateTextures()
         {
-            int n = (int)((PlayingCard)deckData.PeekBottomCard()).Value;
+            int n = (int)((PlayingCard)ModelData.PeekBottomCard()).Value;
             rend.materials[1].mainTexture = pcg.faceTextures[n];
         }
 

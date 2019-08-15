@@ -15,23 +15,40 @@ namespace Assets.Scripts.DropSites
             deckBehaviour = transform.parent.GetComponentInChildren<DeckBehaviour>();
         }
 
-        public override bool DropCard(CardBehaviour droppingCard, Vector3 position)
+        public override bool Drop(BaseObjectBehaviour droppingObj, Vector3 position)
+        {
+            CardBehaviour droppingCard = droppingObj as CardBehaviour;
+            if (droppingCard != null)
+            {
+                DropCard(droppingCard, position);
+                return true;
+            }
+
+            DeckBehaviour droppingDeck = droppingObj as DeckBehaviour;
+            if (droppingDeck != null)
+            {
+                DropDeck(droppingDeck, position);
+                return true;
+            }
+
+            return false;
+        }
+
+        public void DropCard(CardBehaviour droppingCard, Vector3 position)
         {   
             // destroy dropping card
             Destroy(droppingCard.transform.parent.gameObject);
 
             // add card to the laying deck
             if (Input.GetKey(KeyCode.LeftAlt))
-                deckBehaviour.deckData.AddToTheBottom(droppingCard.cardData);
+                deckBehaviour.ModelData.AddToTheBottom(droppingCard.ModelData);
             else
-                deckBehaviour.deckData.AddToTheTop(droppingCard.cardData);
+                deckBehaviour.ModelData.AddToTheTop(droppingCard.ModelData);
             deckBehaviour.AdjustSize();
             deckBehaviour.UpdateTextures();
-
-            return true;
         }
 
-        public override bool DropDeck(DeckBehaviour droppingDeck, Vector3 position)
+        public void DropDeck(DeckBehaviour droppingDeck, Vector3 position)
         {
             // destroy dropping deck
             Destroy(droppingDeck.transform.parent.gameObject);
@@ -39,21 +56,19 @@ namespace Assets.Scripts.DropSites
             // add deck to the laying deck
             if (Input.GetKey(KeyCode.LeftAlt))
             {
-                for (int i = droppingDeck.deckData.CardCount; i > 0; i--)
+                for (int i = droppingDeck.ModelData.CardCount; i > 0; i--)
                 {
-                    var card = droppingDeck.deckData.TakeTopCard();
-                    deckBehaviour.deckData.AddToTheBottom(card);
+                    var card = droppingDeck.ModelData.TakeTopCard();
+                    deckBehaviour.ModelData.AddToTheBottom(card);
                 }
             }   
             else
             {
-                deckBehaviour.deckData.AddToTheTop(droppingDeck.deckData);
+                deckBehaviour.ModelData.AddToTheTop(droppingDeck.ModelData);
             }
                 
             deckBehaviour.AdjustSize();
             deckBehaviour.UpdateTextures();
-
-            return true;
         }
     }
 }

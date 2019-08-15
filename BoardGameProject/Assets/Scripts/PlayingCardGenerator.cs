@@ -3,6 +3,7 @@ using Assets.Scripts.DataModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Objects;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -58,9 +59,9 @@ namespace Assets.Scripts
             if (shuffle)
                 newDeck.Shuffle();
 
-            GameObject go = Instantiate(DeckPrefab, pos, Quaternion.identity, table);
+            GameObject go = Instantiate(deckPrefab, pos, Quaternion.identity, table);
             var pcDeck = go.GetComponentInChildren<PlayingCardDeckBehaviour>();
-            pcDeck.deckData = newDeck;
+            pcDeck.ModelData = newDeck;
             pcDeck.UpdateTextures();
             return go;
         }

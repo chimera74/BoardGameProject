@@ -1,37 +1,28 @@
 ﻿using Assets.Scripts.DataModel;
-using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.Objects;
-using UnityEngine;
-using UnityEngine.EventSystems;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Objects
 {
 
     public class PlayingCardBehaviour : CardBehaviour
-    {   
+    {
+
+        public new PlayingCard ModelData
+        {
+            get { return (PlayingCard)_modelData; }
+            set { _modelData = value; }
+        }
 
         protected PlayingCardGenerator pcg;
 
-        public PlayingCardBehaviour() : base()
-        {
-            
-        }
-
-        protected new void Awake()
+        protected override void Awake()
         {
             base.Awake();
             pcg = FindObjectOfType<PlayingCardGenerator>();
         }
 
-        protected new void Start()
+        public override void UpdateTextures()
         {
-            base.Start();
-        }
-
-        override public void UpdateTextures()
-        {
-            int n = (int)((PlayingCard)cardData).Value;
+            int n = (int)ModelData.Value;
             rend.materials[1].mainTexture = pcg.faceTextures[n];
         }
 

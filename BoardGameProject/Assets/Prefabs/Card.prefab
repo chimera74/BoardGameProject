@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 23831048400494144}
   - component: {fileID: 64729638321741862}
   - component: {fileID: 114375593451346244}
-  - component: {fileID: 5964008087230577863}
   - component: {fileID: 7861644481306295585}
+  - component: {fileID: 5964008087230577863}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -108,9 +108,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6f6c220d8eb974e82ffc81ba59c542, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverHeight: 0.05
   dragTriggerDelta: 0.05
   dropSite: {fileID: 1868094446694068}
+--- !u!114 &7861644481306295585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449752812718442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e38253c3130854685ea679fc22cba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorFollowSpeed: 0.2
+  minSpeed: 0.003
+  tiltPower: 10
+  maxTiltAngle: 20
+  snapSpeed: 1
+  targetPosition: {x: 0, y: 0, z: 0}
+  flipSpeed: 500
+  flipHeight: 0.52
 --- !u!95 &5964008087230577863
 Animator:
   serializedVersion: 3
@@ -130,33 +149,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7861644481306295585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1449752812718442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6e38253c3130854685ea679fc22cba1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapSpeed: 1
-  cursorFollowSpeed: 0.2
-  minSpeed: 0.003
-  tiltPower: 10
-  maxTiltAngle: 20
-  flipSpeed: 500
-  flipHeight: 0.52
-  testAC:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  movementType: 0
-  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1550130829178118
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,8 +17,26 @@ namespace Assets.Scripts.DropSites
             cardBehaviour = transform.parent.GetComponentInChildren<CardBehaviour>();
         }
 
-        public override bool DropCard(CardBehaviour droppingCard, Vector3 position)
+        public override bool Drop(BaseObjectBehaviour droppingObj, Vector3 position)
         {
+            CardBehaviour droppingCard = droppingObj as CardBehaviour;
+            if (droppingCard != null)
+            {
+                DropCard(droppingCard, position);
+                return true;
+            }
+
+            DeckBehaviour droppingDeck = droppingObj as DeckBehaviour;
+            if (droppingDeck != null)
+            {
+                DropDeck(droppingDeck, position);
+                return true;
+            }
+
+            return false;
+        }
+
+        public void DropCard(CardBehaviour droppingCard, Vector3 position) { 
             // the position of the laying card will be position of the deck
             Vector3 pos = transform.parent.position;
 
@@ -32,41 +50,38 @@ namespace Assets.Scripts.DropSites
             List<Card> cards = new List<Card>();
             if (Input.GetKey(KeyCode.LeftAlt))
             {
-                cards.Add(cardBehaviour.cardData);
-                cards.Add(droppingCard.cardData);
+                cards.Add(cardBehaviour.ModelData);
+                cards.Add(droppingCard.ModelData);
             }
             else
             {
-                cards.Add(droppingCard.cardData);
-                cards.Add(cardBehaviour.cardData);
+                cards.Add(droppingCard.ModelData);
+                cards.Add(cardBehaviour.ModelData);
             }
             
-            cg.SpawnDeck(cards, pos, cardBehaviour.cardData.IsFaceUp);
-
-            return true;
+            cg.SpawnDeck(cards, pos, cardBehaviour.ModelData.IsFaceUp);
         }
 
-        public override bool DropDeck(DeckBehaviour droppingDeck, Vector3 position)
+        public void DropDeck(DeckBehaviour droppingDeck, Vector3 position)
         {
             var pos = cardBehaviour.transform.parent.position;
-            // destroy lcaying card
+
+            // destroy laying card
             Destroy(cardBehaviour.transform.parent.gameObject);
 
             // add card to the dropping deck
             if (Input.GetKey(KeyCode.LeftAlt))
             {
-                droppingDeck.deckData.AddToTheTop(cardBehaviour.cardData);
+                droppingDeck.ModelData.AddToTheTop(cardBehaviour.ModelData);
             }
             else
             {
-                droppingDeck.deckData.AddToTheBottom(cardBehaviour.cardData);
+                droppingDeck.ModelData.AddToTheBottom(cardBehaviour.ModelData);
             }
 
             droppingDeck.transform.parent.position = pos;
             droppingDeck.AdjustSize();
             droppingDeck.UpdateTextures();
-
-            return false;
         }
     }
 }

@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Assets.Scripts.DataModel;
+using Assets.Scripts.Objects;
 
 namespace Assets.Scripts
 {
     public class CardGenerator : MonoBehaviour
     {
         [Header("Prefabs")]
-        public GameObject CardPrefab;
-        public GameObject DeckPrefab;
+        public GameObject cardPrefab;
+        public GameObject deckPrefab;
 
         protected Transform table;
         protected DragAndDropManager dndm;
@@ -29,11 +30,11 @@ namespace Assets.Scripts
 
         public GameObject SpawnCard(Card card, Vector3 pos)
         {
-            GameObject go = Instantiate(CardPrefab, pos, Quaternion.identity, table);
-            var pc = go.GetComponentInChildren<PlayingCardBehaviour>();
-            pc.cardData = card;
-            if (dndm.PutCardAt(pc, pos, pos))
-                pc.UpdateTextures();
+            GameObject go = Instantiate(cardPrefab, pos, Quaternion.identity, table);
+            var pc = go.GetComponentInChildren<CardBehaviour>();
+            pc.ModelData = card;
+            dndm.PutAt(pc, pos);
+            pc.UpdateTextures();
             return go;
         }
 
@@ -45,9 +46,9 @@ namespace Assets.Scripts
                 newDeck.AddToTheBottom(card);
             }
 
-            GameObject go = Instantiate(DeckPrefab, pos, Quaternion.identity, table);
+            GameObject go = Instantiate(deckPrefab, pos, Quaternion.identity, table);
             var deckBhvr = go.GetComponentInChildren<DeckBehaviour>();
-            deckBhvr.deckData = newDeck;
+            deckBhvr.ModelData = newDeck;
             deckBhvr.AdjustSize();
             deckBhvr.UpdateTextures();
             return go;
