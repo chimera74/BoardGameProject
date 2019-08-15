@@ -219,7 +219,6 @@ namespace Assets.Scripts.Objects
         public void SetFaceUp(bool isFaceUp)
         {
             cardData.IsFaceUp = isFaceUp;
-            cas.Flip();
         }
 
         public void FlipCard()

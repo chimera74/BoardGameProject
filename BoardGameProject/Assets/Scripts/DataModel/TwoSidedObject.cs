@@ -11,7 +11,22 @@ namespace Assets.Scripts.DataModel
     /// </summary>
     public class TwoSidedObject : BaseObject
     {
-        public bool IsFaceUp { get; set; }
+
+        public event Action OnFaceUpChanged;
+
+        private bool _isFaceUp;
+
+        public bool IsFaceUp
+        {
+            get { return _isFaceUp; }
+            set
+            {
+                var old = _isFaceUp;
+                _isFaceUp = value;
+                if (old != _isFaceUp)
+                    OnFaceUpChanged?.Invoke();
+            }
+        }
 
         public TwoSidedObject()
         {

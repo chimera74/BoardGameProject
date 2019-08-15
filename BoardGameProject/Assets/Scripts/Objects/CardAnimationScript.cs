@@ -47,11 +47,13 @@ namespace Assets.Scripts.Objects
         protected void Start()
         {
             cb.cardData.OnPositionChanged += MoveToModelPosition;
+            cb.cardData.OnFaceUpChanged += Flip;
         }
 
         protected void OnDestroy()
         {
             cb.cardData.OnPositionChanged -= MoveToModelPosition;
+            cb.cardData.OnFaceUpChanged -= Flip;
         }
 
         protected void Update()
