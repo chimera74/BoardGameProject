@@ -13,21 +13,13 @@ namespace Assets.Scripts.Objects
             set { _modelData = value; }
         }
 
-        [Header("Other")]
-        public int fullDeckCount = 52;
-
         protected CardGenerator cg;
 
-        protected float baseYScale;
-        protected float baseYPos;
 
         protected override void Awake()
         {
             base.Awake();
             cg = FindObjectOfType<CardGenerator>();
-
-            baseYScale = transform.localScale.y;
-            baseYPos = transform.localPosition.y;
         }
 
         protected override void OnMouseOver()
@@ -52,11 +44,6 @@ namespace Assets.Scripts.Objects
                 cg.SpawnCard(lastCard, new Vector3(root.position.x, table.transform.position.y, root.position.z));
                 Despawn();
             }
-            else
-            {
-                AdjustSize();
-                UpdateTextures();
-            }
         }
 
         protected override void OnLeftMouseDoubleClick(PointerEventData pointerEventData)
@@ -64,19 +51,5 @@ namespace Assets.Scripts.Objects
             SpawnTopCardOnTheRight();
         }
 
-        public void AdjustSize()
-        {
-            if (ModelData.CardCount >= fullDeckCount)
-            {
-                // Full deck
-                transform.localScale = new Vector3(transform.localScale.x, baseYScale, transform.localScale.z);
-            }
-            else
-            {
-                float yScale = (float)ModelData.CardCount / fullDeckCount;
-                transform.localScale = new Vector3(transform.localScale.x, baseYScale * yScale, transform.localScale.z);
-                transform.localPosition = new Vector3(0, baseYPos * yScale, 0);
-            }
-        }
     }
 }

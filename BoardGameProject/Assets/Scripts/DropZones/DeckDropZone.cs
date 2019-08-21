@@ -1,9 +1,9 @@
 ﻿using Assets.Scripts.Objects;
 using UnityEngine;
 
-namespace Assets.Scripts.DropSites
+namespace Assets.Scripts.DropZones
 {
-    public class DeckDropSite : DropSite
+    public class DeckDropZone : DropZone
     {
 
         protected CardGenerator cg;
@@ -44,8 +44,6 @@ namespace Assets.Scripts.DropSites
                 deckBehaviour.ModelData.AddToTheBottom(droppingCard.ModelData);
             else
                 deckBehaviour.ModelData.AddToTheTop(droppingCard.ModelData);
-            deckBehaviour.AdjustSize();
-            deckBehaviour.UpdateTextures();
         }
 
         public void DropDeck(DeckBehaviour droppingDeck, Vector3 position)
@@ -66,9 +64,6 @@ namespace Assets.Scripts.DropSites
             {
                 deckBehaviour.ModelData.AddToTheTop(droppingDeck.ModelData);
             }
-                
-            deckBehaviour.AdjustSize();
-            deckBehaviour.UpdateTextures();
         }
     }
 }

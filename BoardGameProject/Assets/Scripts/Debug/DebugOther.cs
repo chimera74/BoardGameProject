@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.DataModel;
-using Assets.Scripts.DropSites;
+using Assets.Scripts.DropZones;
 using UnityEngine;
 
 namespace Assets.Scripts.Debug
@@ -8,28 +8,28 @@ namespace Assets.Scripts.Debug
     {
         public static void PrintAllDropSites()
         {
-            var dropSites = GameObject.FindObjectsOfType<DropSite>();
-            foreach (DropSite ds in dropSites)
+            var dropZones = GameObject.FindObjectsOfType<DropZone>();
+            foreach (DropZone dz in dropZones)
             {
-                if (ds.name == "Table")
-                    UnityEngine.Debug.Log("Table\n" + ds.enabled);
+                if (dz.name == "Table")
+                    UnityEngine.Debug.Log("Table\n" + dz.enabled);
                 else
                 {
-                    string str = ds.transform.parent.name;
-                    CardDropSite cds = ds as CardDropSite;
-                    if (cds != null)
+                    string str = dz.transform.parent.name;
+                    CardDropZone cdz = dz as CardDropZone;
+                    if (cdz != null)
                     {
-                        str += ": " + cds.transform.parent.GetComponentInChildren<PlayingCard>().ToString();
+                        str += ": " + cdz.transform.parent.GetComponentInChildren<PlayingCard>().ToString();
 
                     }
                     else 
                     {
-                        DeckDropSite dds = ds as DeckDropSite;
-                        if (dds != null)
-                            str += ": " + dds.transform.parent.GetComponentInChildren<PlayingCard>().ToString();
+                        DeckDropZone ddz = dz as DeckDropZone;
+                        if (ddz != null)
+                            str += ": " + ddz.transform.parent.GetComponentInChildren<PlayingCard>().ToString();
                     }
 
-                    UnityEngine.Debug.Log(str + "\n" + ds.enabled);
+                    UnityEngine.Debug.Log(str + "\n" + dz.enabled);
                 }
             }
         }

@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.DropSites;
+﻿using Assets.Scripts.DropZones;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,7 +6,7 @@ namespace Assets.Scripts.Debug.Editor
 {
     public class DebugViewer : EditorWindow
     {
-        DropSite ds = null;
+        DropZone dz = null;
         Vector3 tablePos = Vector3.zero;
 
         [MenuItem("Window/DebugView")]
@@ -19,7 +19,7 @@ namespace Assets.Scripts.Debug.Editor
         void OnGUI()
         {
             PrintCoords(tablePos);
-            PrintDropSite(ds);
+            PrintDropZone(dz);
         }
 
         public void PrintCoords(Vector3 vect)
@@ -28,11 +28,11 @@ namespace Assets.Scripts.Debug.Editor
             GUILayout.Label(vect.ToString());
         }
 
-        public void PrintDropSite(DropSite ds)
+        public void PrintDropZone(DropZone dz)
         {
-            GUILayout.Label("DropSite:", EditorStyles.boldLabel);
-            if (ds != null)
-                GUILayout.Label(ds.name);
+            GUILayout.Label("DropZone:", EditorStyles.boldLabel);
+            if (dz != null)
+                GUILayout.Label(dz.name);
             else
                 GUILayout.Label("None");
         }
@@ -64,7 +64,7 @@ namespace Assets.Scripts.Debug.Editor
             if (tbl == null)
                 return;
 
-            ds = null;
+            dz = null;
             tablePos = Vector3.zero;
 
             Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
@@ -74,9 +74,9 @@ namespace Assets.Scripts.Debug.Editor
             if (tableCollider.Raycast(ray, out var hit, Mathf.Infinity))
             {
                 tablePos = hit.point;
-                if (RaycastingHelper.RaycastToDropSites(out var hit2, tablePos))
+                if (RaycastingHelper.RaycastToDropZones(out var hit2, tablePos))
                 {
-                    ds = hit2.transform.GetComponent<DropSite>();
+                    dz = hit2.transform.GetComponent<DropZone>();
                 }
             }
         }

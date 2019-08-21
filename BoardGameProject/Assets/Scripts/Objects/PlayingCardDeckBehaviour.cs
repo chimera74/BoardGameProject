@@ -12,12 +12,5 @@ namespace Assets.Scripts.Objects
             base.Awake();
             pcg = FindObjectOfType<PlayingCardGenerator>();
         }
-
-        public override void UpdateTextures()
-        {
-            int n = (int)((PlayingCard)ModelData.PeekBottomCard()).Value;
-            rend.materials[1].mainTexture = pcg.faceTextures[n];
-        }
-
     }
 }

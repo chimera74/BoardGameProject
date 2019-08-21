@@ -11,10 +11,16 @@ namespace Assets.Scripts.DataModel
      */
     public class Deck : TwoSidedObject
     {
+
+        public event Action OnCardAdded;
+        public event Action OnCardRemoved;
+        public event Action OnShuffle;
+
         private LinkedList<Card> _cardList = new LinkedList<Card>();
 
         public int CardCount => _cardList.Count;
-
+        public Card VisibleFaceCard => _cardList.First.Value;
+        public Card VisibleBackCard => _cardList.Last.Value;
 
         public void Shuffle()
         {
@@ -48,6 +54,8 @@ namespace Assets.Scripts.DataModel
                 oldList.Remove(currentNode);
             }
             _cardList = newList;
+
+            OnShuffle?.Invoke();
         }
 
         public Card TakeTopCard()
@@ -65,6 +73,7 @@ namespace Assets.Scripts.DataModel
             }
 
             card.IsFaceUp = IsFaceUp;
+            OnCardRemoved?.Invoke();
             return card;
         }
 
@@ -83,6 +92,7 @@ namespace Assets.Scripts.DataModel
             }
 
             card.IsFaceUp = IsFaceUp;
+            OnCardRemoved?.Invoke();
             return card;
         }
 
@@ -97,6 +107,7 @@ namespace Assets.Scripts.DataModel
             {
                 _cardList.AddLast(card);
             }
+            OnCardAdded?.Invoke();
         }
 
         public void AddToTheTop(Deck deck)
@@ -115,6 +126,7 @@ namespace Assets.Scripts.DataModel
                     _cardList.AddFirst(card);
                 }
             }
+            OnCardAdded?.Invoke();
         }
 
         public void AddToTheBottom(Card card)
@@ -127,6 +139,7 @@ namespace Assets.Scripts.DataModel
             {
                 _cardList.AddLast(card);
             }
+            OnCardAdded?.Invoke();
         }
 
         public void AddToTheBottom(Deck deck)
@@ -145,8 +158,8 @@ namespace Assets.Scripts.DataModel
                     _cardList.AddFirst(card);
                 }
             }
+            OnCardAdded?.Invoke();
         }
-
 
         public Card PeekBottomCard()
         {

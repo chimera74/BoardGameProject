@@ -15,9 +15,9 @@ namespace Assets.Scripts
             return hit;
         }
 
-        public static bool RaycastToDropSites(out RaycastHit hit, Vector3 pos)
+        public static bool RaycastToDropZones(out RaycastHit hit, Vector3 pos)
         {
-            int layerMask = 1 << 9; // DropSite layer
+            int layerMask = 1 << 9; // DropZone layer
             Ray ray = new Ray(new Vector3(pos.x, 10.0f, pos.z), Vector3.down);
             return Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask);
         }

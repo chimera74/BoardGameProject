@@ -3,9 +3,9 @@ using Assets.Scripts.DataModel;
 using Assets.Scripts.Objects;
 using UnityEngine;
 
-namespace Assets.Scripts.DropSites
+namespace Assets.Scripts.DropZones
 {
-    public class CardDropSite : DropSite
+    public class CardDropZone : DropZone
     {
 
         protected CardGenerator cg;
@@ -80,8 +80,6 @@ namespace Assets.Scripts.DropSites
             }
 
             droppingDeck.transform.parent.position = pos;
-            droppingDeck.AdjustSize();
-            droppingDeck.UpdateTextures();
         }
     }
 }

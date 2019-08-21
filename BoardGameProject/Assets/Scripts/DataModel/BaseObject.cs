@@ -11,7 +11,7 @@ namespace Assets.Scripts.DataModel
     {
         public event Action OnPositionChanged;
 
-        public Guid GUID { get; }
+        public long id { get; }
 
         private Vector2 _position;
         public Vector2 Position {
@@ -26,7 +26,7 @@ namespace Assets.Scripts.DataModel
 
         public BaseObject()
         {
-            GUID = Guid.NewGuid();
+            id = 0; // TODO ID generator
             Position = Vector2.zero;
             Owner = null;
         }

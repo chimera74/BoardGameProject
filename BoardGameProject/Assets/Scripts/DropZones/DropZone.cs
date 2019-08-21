@@ -1,9 +1,9 @@
 ﻿using Assets.Scripts.Objects;
 using UnityEngine;
 
-namespace Assets.Scripts.DropSites
+namespace Assets.Scripts.DropZones
 {
-    public abstract class DropSite : MonoBehaviour
+    public abstract class DropZone : MonoBehaviour
     {
         /// <summary>
         /// Method that processes dropping an object at this drop site.

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Assets.Scripts.DataModel;
-using Assets.Scripts.DropSites;
+using Assets.Scripts.DropZones;
 using Assets.Scripts.Objects;
 using UnityEngine;
 
@@ -33,13 +29,13 @@ namespace Assets.Scripts
         public bool PutAt(BaseObjectBehaviour obj, Vector3 pos)
         {
             TriggerOnDragStart();
-            bool res = RaycastingHelper.RaycastToDropSites(out var hit, pos);
+            bool res = RaycastingHelper.RaycastToDropZones(out var hit, pos);
             TriggerOnDragStop();
 
             if (res)
             {
-                DropSite ds = hit.transform.GetComponent<DropSite>();
-                return ds.Drop(obj, hit.point);
+                DropZone dz = hit.transform.GetComponent<DropZone>();
+                return dz.Drop(obj, hit.point);
             }
 
             return false;

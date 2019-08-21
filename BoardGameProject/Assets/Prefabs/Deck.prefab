@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 64444756664024440}
   - component: {fileID: 7421520477067700973}
   - component: {fileID: 2533531491109313580}
+  - component: {fileID: 3329445671332800195}
   - component: {fileID: 8777424418033733833}
   m_Layer: 0
   m_Name: Deck
@@ -214,10 +215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ef62d5b6ecf22648858fdec852143d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverHeight: 0.05
   dragTriggerDelta: 0.05
   dropSite: {fileID: 1006535216085510}
-  fullDeckCount: 52
 --- !u!114 &2533531491109313580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,15 +229,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6e38253c3130854685ea679fc22cba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapSpeed: 1
   cursorFollowSpeed: 0.2
   minSpeed: 0.003
   tiltPower: 10
   maxTiltAngle: 20
+  snapSpeed: 1
+  targetPosition: {x: 0, y: 0, z: 0}
   flipSpeed: 500
   flipHeight: 0.6
-  movementType: 0
-  targetPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &3329445671332800195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369505544693268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52506620575f75447807be9abba848b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faceTexture: {fileID: 0}
+  backTexture: {fileID: 0}
+  fullDeckCount: 52
 --- !u!95 &8777424418033733833
 Animator:
   serializedVersion: 3

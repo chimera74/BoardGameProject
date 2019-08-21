@@ -12,6 +12,7 @@ namespace Assets.Scripts
     {
         [Header("Prefabs")]
         public GameObject cardPrefab;
+
         public GameObject deckPrefab;
 
         protected Transform table;
@@ -23,9 +24,19 @@ namespace Assets.Scripts
         }
 
         // Use this for initialization
-        public void Start()
+        public virtual void Start()
         {
             table = FindObjectOfType<Table>().transform;
+        }
+
+        public virtual Texture2D GetCardFaceTexture(Card card)
+        {
+            return null; //TODO return placeholder texture
+        }
+
+        public virtual Texture2D GetCardBackTexture(Card card)
+        {
+            return null; //TODO return placeholder texture
         }
 
         public GameObject SpawnCard(Card card, Vector3 pos)
@@ -34,7 +45,6 @@ namespace Assets.Scripts
             var pc = go.GetComponentInChildren<CardBehaviour>();
             pc.ModelData = card;
             dndm.PutAt(pc, pos);
-            pc.UpdateTextures();
             return go;
         }
 
@@ -49,8 +59,6 @@ namespace Assets.Scripts
             GameObject go = Instantiate(deckPrefab, pos, Quaternion.identity, table);
             var deckBhvr = go.GetComponentInChildren<DeckBehaviour>();
             deckBhvr.ModelData = newDeck;
-            deckBhvr.AdjustSize();
-            deckBhvr.UpdateTextures();
             return go;
         }
     }

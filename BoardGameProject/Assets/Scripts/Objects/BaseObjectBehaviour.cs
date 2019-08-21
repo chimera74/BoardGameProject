@@ -26,7 +26,8 @@ namespace Assets.Scripts.Objects
         protected Transform root;
         protected Renderer rend;
         protected DragAndDropManager dndm;
-        protected BaseObjectAnimationScript animScr;
+        protected BaseObjectAnimation animScr;
+        protected BaseObjectAppearance apprn;
 
         protected virtual void Awake()
         {
@@ -34,7 +35,8 @@ namespace Assets.Scripts.Objects
             root = transform.parent.GetComponent<Transform>();
             rend = GetComponent<Renderer>();
             dndm = FindObjectOfType<DragAndDropManager>();
-            animScr = GetComponent<BaseObjectAnimationScript>();
+            animScr = GetComponent<BaseObjectAnimation>();
+            apprn = GetComponent<BaseObjectAppearance>();
         }
 
         protected virtual void Start()
@@ -42,6 +44,7 @@ namespace Assets.Scripts.Objects
             dndm.OnDragStart += EnableDropSite;
             dndm.OnDragStop += DisableDropSite;
             DisableDropSite();
+            apprn.UpdateAppearance();
         }
 
         protected virtual void Update()
@@ -98,12 +101,6 @@ namespace Assets.Scripts.Objects
         protected virtual void OnRightMouseClick(PointerEventData pointerEventData)
         {
         }
-
-        public virtual void UpdateTextures()
-        {
-        }
-
-
 
         public virtual void Despawn()
         {

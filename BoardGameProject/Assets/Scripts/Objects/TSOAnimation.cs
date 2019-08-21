@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Objects
 {
-    public class TSOAnimationScript : BaseObjectAnimationScript
+    public class TSOAnimation : BaseObjectAnimation
     {
         [Header("Flipping")]
         public float flipSpeed = 10.0f;
@@ -32,7 +32,8 @@ namespace Assets.Scripts.Objects
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            _model.OnFaceUpChanged -= Flip;
+            if (_model != null)
+                _model.OnFaceUpChanged -= Flip;
         }
 
         protected override void LateUpdate()

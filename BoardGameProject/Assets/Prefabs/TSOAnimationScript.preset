@@ -26,10 +26,6 @@ Preset:
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: snapSpeed
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
     propertyPath: cursorFollowSpeed
     value: 0.2
     objectReference: {fileID: 0}
@@ -46,16 +42,8 @@ Preset:
     value: 20
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: flipSpeed
-    value: 500
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: flipHeight
-    value: 0.52
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: movementType
-    value: 0
+    propertyPath: snapSpeed
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: targetPosition.x
@@ -68,4 +56,12 @@ Preset:
   - target: {fileID: 0}
     propertyPath: targetPosition.z
     value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: flipSpeed
+    value: 500
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: flipHeight
+    value: 0.52
     objectReference: {fileID: 0}

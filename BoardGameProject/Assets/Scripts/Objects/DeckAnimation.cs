@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Objects
 {
-    public class DeckAnimationScript : TSOAnimationScript
+    public class DeckAnimation : TSOAnimation
     {
         public void ShuffleAnimation()
         {

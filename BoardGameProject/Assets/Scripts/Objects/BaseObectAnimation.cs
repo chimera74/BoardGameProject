@@ -11,7 +11,7 @@ namespace Assets.Scripts.Objects
         CursorFollow
     }
 
-    public class BaseObjectAnimationScript : MonoBehaviour
+    public class BaseObjectAnimation : MonoBehaviour
     {
         [Header("Dragging")]
         public float cursorFollowSpeed = 0.4f;
@@ -52,7 +52,8 @@ namespace Assets.Scripts.Objects
 
         protected virtual void OnDestroy()
         {
-            _model.OnPositionChanged -= MoveToModelPosition;
+            if (_model != null)
+                _model.OnPositionChanged -= MoveToModelPosition;
         }
 
         protected virtual void Update()

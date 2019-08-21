@@ -1,9 +1,9 @@
 ﻿using Assets.Scripts.Objects;
 using UnityEngine;
 
-namespace Assets.Scripts.DropSites
+namespace Assets.Scripts.DropZones
 {
-    public class TableDropSite : DropSite
+    public class TableDropZone : DropZone
     {
         public override bool Drop(BaseObjectBehaviour droppingObj, Vector3 position)
         {
