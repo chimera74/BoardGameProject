@@ -5,15 +5,8 @@ using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Objects
 {
-    public class BaseObjectBehaviour : MonoBehaviour, IPointerClickHandler
+    public class BaseObjectBehaviour : ModelContainerBehaviour, IPointerClickHandler
     {
-        protected BaseObject _modelData;
-
-        public BaseObject ModelData
-        {
-            get { return _modelData; }
-            set { _modelData = value; }
-        }
 
         [Header("Dragging Settings")]
         public float dragTriggerDelta = 0.05f;

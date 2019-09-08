@@ -15,21 +15,21 @@ namespace Assets.Scripts.Objects
         [HideInInspector]
         public Texture2D backTexture;
 
-        protected CardBehaviour cb;
+        protected ModelContainerBehaviour mc;
         protected CardGenerator cg;
         protected Renderer rend;
 
         protected void Awake()
         {
             cg = FindObjectOfType<CardGenerator>();
-            cb = GetComponent<CardBehaviour>();
+            mc = GetComponent<ModelContainerBehaviour>();
             rend = GetComponent<Renderer>();
         }
 
         public override void UpdateAppearance()
         {
-            faceTexture = cg.GetCardFaceTexture(cb.ModelData);
-            backTexture = cg.GetCardBackTexture(cb.ModelData);
+            faceTexture = cg.GetCardFaceTexture((Card) mc.ModelData);
+            backTexture = cg.GetCardBackTexture((Card) mc.ModelData);
 
             rend.materials[1].mainTexture = faceTexture;
             // TODO Assign cardback

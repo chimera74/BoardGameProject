@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using Assets.Scripts.DataModel;
 using Assets.Scripts.Objects;
+using Assets.Scripts.Presentation;
 
 namespace Assets.Scripts
 {
@@ -12,21 +13,24 @@ namespace Assets.Scripts
     {
         [Header("Prefabs")]
         public GameObject cardPrefab;
+        public GameObject cardInHandPrefab;
 
         public GameObject deckPrefab;
 
         protected Transform table;
         protected DragAndDropManager dndm;
+        protected Transform hand;
 
         public void Awake()
         {
             dndm = FindObjectOfType<DragAndDropManager>();
+            table = FindObjectOfType<Table>().transform;
+            hand = FindObjectOfType<HandBehaviour>().transform;
         }
 
-        // Use this for initialization
         public virtual void Start()
         {
-            table = FindObjectOfType<Table>().transform;
+            
         }
 
         public virtual Texture2D GetCardFaceTexture(Card card)
@@ -45,6 +49,14 @@ namespace Assets.Scripts
             var pc = go.GetComponentInChildren<CardBehaviour>();
             pc.ModelData = card;
             dndm.PutAt(pc, pos);
+            return go;
+        }
+
+        public GameObject SpawnCardInHand(Card card)
+        {
+            GameObject go = Instantiate(cardInHandPrefab, hand.position, Quaternion.identity, hand);
+            var pc = go.GetComponentInChildren<CardInHandBehaviour>();
+            pc.ModelData = card;
             return go;
         }
 
