@@ -45,6 +45,8 @@ GameObject:
   - component: {fileID: 2462442435386470342}
   - component: {fileID: 3557651062561686166}
   - component: {fileID: 8291893121601756630}
+  - component: {fileID: 7420003404315004088}
+  - component: {fileID: 8958541725753536839}
   m_Layer: 10
   m_Name: Card
   m_TagString: Untagged
@@ -152,3 +154,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   faceTexture: {fileID: 0}
   backTexture: {fileID: 0}
+--- !u!114 &7420003404315004088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2507532545462077066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eaf1a5708cf6c54e87cfbf44bdcca0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverYPos: 0.85
+  hoverZPos: -0.01
+--- !u!95 &8958541725753536839
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2507532545462077066}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 09c155b8ed321cd419069476f37c3f8f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

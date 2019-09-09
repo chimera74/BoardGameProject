@@ -66,19 +66,21 @@ namespace Assets.Scripts.Presentation
 
         public void RearrangeCardsToModel()
         {
-            int count = ModelData.CardCount;
-            float startXPos = cardXOffset * (-(count / 2) + 0.5f - (count % 2) * 0.5f);
-
             var cihbs = GetComponentsInChildren<CardInHandBehaviour>();
             foreach (CardInHandBehaviour cihb in cihbs)
             {
-                // find it's position
-                int pos = ModelData.GetCardPosition(cihb.ModelData);
-                Vector3 newPos = new Vector3(startXPos + pos * cardXOffset, 0, -cardZOffset * pos);
-
-                // move to corresponding pos
-                cihb.transform.parent.localPosition = newPos;
+                cihb.transform.parent.localPosition = GetCardIdlePosition(cihb);
             }
+        }
+
+        public Vector3 GetCardIdlePosition(CardInHandBehaviour cihb)
+        {
+            int count = ModelData.CardCount;
+            float startXPos = cardXOffset * (-(count / 2) + 0.5f - (count % 2) * 0.5f);
+            int pos = ModelData.GetCardPosition(cihb.ModelData);
+            Vector3 localPos = new Vector3(startXPos + pos * cardXOffset, 0, -cardZOffset * pos);
+
+            return localPos;
         }
     }
 }

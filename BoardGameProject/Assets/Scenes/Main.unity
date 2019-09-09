@@ -239,7 +239,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aa715572c4655f4681b07646d4c3d2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardOffset: 0.3
+  cardXOffset: 0.6
+  cardZOffset: 0.0001
 --- !u!1 &534828598
 GameObject:
   m_ObjectHideFlags: 0

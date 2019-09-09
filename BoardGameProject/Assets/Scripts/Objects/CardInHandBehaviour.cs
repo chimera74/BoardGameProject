@@ -13,18 +13,18 @@ namespace Assets.Scripts.Objects
     {
         public new Card ModelData
         {
-            get { return (Card)_modelData; }
+            get { return (Card) _modelData; }
             set { _modelData = value; }
         }
 
         protected Renderer rend;
-        protected BaseObjectAnimation animScr;
         protected BaseObjectAppearance apprn;
+        protected CardInHandAnimation animScr;
 
         protected virtual void Awake()
         {
             rend = GetComponent<Renderer>();
-            animScr = GetComponent<BaseObjectAnimation>();
+            animScr = GetComponent<CardInHandAnimation>();
             apprn = GetComponent<BaseObjectAppearance>();
         }
 
@@ -48,6 +48,16 @@ namespace Assets.Scripts.Objects
 
         protected virtual void OnRightMouseClick(PointerEventData pointerEventData)
         {
+        }
+
+        protected virtual void OnMouseEnter()
+        {
+            animScr.StartHover();
+        }
+
+        protected virtual void OnMouseExit()
+        {
+            animScr.StopHover();
         }
     }
 }
