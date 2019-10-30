@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.DataModel
@@ -22,6 +18,11 @@ namespace Assets.Scripts.DataModel
                 OnPositionChanged?.Invoke();
             }
         }
+
+        /// <summary>
+        /// Area which this object belongs to. I.e card being in hand or on a table.
+        /// </summary>
+        public long AreaId { get; set; }
         public Player Owner { get; set; }
 
         public BaseObject()

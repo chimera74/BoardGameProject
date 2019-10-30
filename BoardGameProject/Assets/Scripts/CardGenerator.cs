@@ -52,9 +52,18 @@ namespace Assets.Scripts
             return go;
         }
 
+        public GameObject SpawnCard(Card card, Vector3 pos, long areaId)
+        {
+            if (areaId == 1)
+                return SpawnCardInHand(card);
+            else
+                return SpawnCard(card, pos);
+        }
+
         public GameObject SpawnCardInHand(Card card)
         {
-            GameObject go = Instantiate(cardInHandPrefab, hand.position, Quaternion.identity, hand);
+            Quaternion rot = hand.rotation * Quaternion.Euler(-90, 0, 0);
+            GameObject go = Instantiate(cardInHandPrefab, hand.position, rot, hand);
             var pc = go.GetComponentInChildren<CardInHandBehaviour>();
             pc.ModelData = card;
             return go;
