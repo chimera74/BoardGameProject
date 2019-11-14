@@ -7,7 +7,6 @@ namespace Assets.Scripts.Objects
 {
     public class BaseObjectBehaviour : ModelContainerBehaviour, IPointerClickHandler
     {
-
         [Header("Dragging Settings")]
         public float dragTriggerDelta = 0.05f;
 
@@ -16,6 +15,8 @@ namespace Assets.Scripts.Objects
 
         [Header("Other")]
         protected Table table;
+
+        protected Collider handPlaneCollider;
         protected Transform root;
         protected Renderer rend;
         protected DragAndDropManager dndm;
@@ -30,6 +31,7 @@ namespace Assets.Scripts.Objects
             dndm = FindObjectOfType<DragAndDropManager>();
             animScr = GetComponent<BaseObjectAnimation>();
             apprn = GetComponent<BaseObjectAppearance>();
+            handPlaneCollider = GameObject.Find("HandPlane").GetComponent<Collider>();
         }
 
         protected virtual void Start()
@@ -105,10 +107,11 @@ namespace Assets.Scripts.Objects
         protected bool _isDragMode;
         protected Vector3 _dragStartPosition;
         protected Vector3 _dragStartObjPosition;
+        protected bool _isInHandPlane;
 
         protected virtual void Drag_OnMouseDown()
         {
-            RaycastHit? hit = RaycastingHelper.RaycastCursorTo(table.outsideTableCollider);
+            RaycastHit? hit = RaycastingHelper.instance.RaycastCursorTo(table.tableCollider);
             if (hit != null)
             {
                 _dragStartPosition = hit.Value.point;
@@ -118,29 +121,52 @@ namespace Assets.Scripts.Objects
 
         protected virtual void Drag_OnMouseDrag()
         {
-            RaycastHit? hit = RaycastingHelper.RaycastCursorTo(table.outsideTableCollider);
-            if (hit == null)
-                return;
-
-            var hitPoint = hit.Value.point;
+            bool isSwitching = false;
+            RaycastHit? handPlaneHit = RaycastingHelper.instance.RaycastCursorFromHandCameraTo(handPlaneCollider);
+            Vector3 hitPoint;
+            if (handPlaneHit != null)
+            {
+                hitPoint = handPlaneHit.Value.point;
+                if (!_isInHandPlane)
+                    isSwitching = true;
+                _isInHandPlane = true;
+            }
+            else
+            {
+                RaycastHit? hit = RaycastingHelper.instance.RaycastCursorTo(table.tableCollider);
+                if (hit == null)
+                    return;
+                hitPoint = hit.Value.point;
+                if (_isInHandPlane)
+                    isSwitching = true;
+                _isInHandPlane = false;
+            }
 
             if (!_isDragMode)
             {
                 if (Vector3.Distance(hitPoint, _dragStartPosition) > dragTriggerDelta)
                 {
-                    animScr.targetPosition = new Vector3(hitPoint.x, root.position.y, hitPoint.z);
+                    animScr.targetPosition = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z);
                     StartDrag();
                 }
             }
             else
             {
-                animScr.targetPosition = new Vector3(hitPoint.x, root.position.y, hitPoint.z);
+                var newPos = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z);
+                if (isSwitching)
+                {
+                    root.position = newPos;
+                    root.SetParent(_isInHandPlane ? handPlaneCollider.transform : table.transform);
+                }
+
+                animScr.targetPosition = newPos;
             }
         }
 
         protected virtual void StartDrag()
         {
             _isDragMode = true;
+            _isInHandPlane = ModelData.Area == Area.Hand;
             dndm.TriggerOnDragStart();
             DisableDropSite();
             animScr.StartHover();
@@ -152,15 +178,33 @@ namespace Assets.Scripts.Objects
             if (!_isDragMode)
                 return;
 
-            RaycastHit? hit = RaycastingHelper.RaycastCursorTo(table.outsideTableCollider);
-            if (hit == null)
-                return;
-
-            var hitPoint = hit.Value.point;
+            Area area;
+            RaycastHit? handPlaneHit = RaycastingHelper.instance.RaycastCursorFromHandCameraTo(handPlaneCollider);
+            Vector3 hitPoint;
+            if (handPlaneHit != null)
+            {
+                hitPoint = handPlaneHit.Value.point;
+                area = Area.Hand;
+            }
+            else
+            {
+                RaycastHit? tableHit = RaycastingHelper.instance.RaycastCursorTo(table.tableCollider);
+                if (tableHit != null)
+                {
+                    hitPoint = tableHit.Value.point;
+                    area = Area.Table;
+                }
+                else
+                {
+                    animScr.MoveToModelPosition();
+                    return;
+                }
+            }
 
             var dropPos = new Vector3(hitPoint.x, table.transform.position.y, hitPoint.z);
-            if (!dndm.PutAt(this, dropPos))
+            if (!dndm.PutAt(this, area, dropPos))
                 animScr.MoveToModelPosition();
+
             _isDragMode = false;
             dndm.TriggerOnDragStop();
             animScr.StopHover();

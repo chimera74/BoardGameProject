@@ -52,12 +52,12 @@ namespace Assets.Scripts.Objects
 
         protected virtual void OnMouseEnter()
         {
-            animScr.StartHover();
+            //animScr.StartHover();
         }
 
         protected virtual void OnMouseExit()
         {
-            animScr.StopHover();
+            //animScr.StopHover();
         }
     }
 }

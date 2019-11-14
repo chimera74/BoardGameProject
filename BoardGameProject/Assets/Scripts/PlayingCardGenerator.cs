@@ -54,7 +54,7 @@ namespace Assets.Scripts
         {
             var value = (PlayingCardValue) UnityEngine.Random.Range(0, 52);
             PlayingCard cardData = new PlayingCard() {Value = value};
-            SpawnCard(cardData, pos);
+            SpawnCardOnTable(cardData, pos);
         }
 
 

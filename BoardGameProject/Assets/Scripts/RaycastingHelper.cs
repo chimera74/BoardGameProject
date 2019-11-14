@@ -6,20 +6,48 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class RaycastingHelper
+    public class RaycastingHelper : MonoBehaviour
     {
-        public static RaycastHit? RaycastCursorTo(Collider targetObjectCollider)
+
+        public static RaycastingHelper instance;
+        public Camera mainCamera;
+        public Camera handCamera;
+
+        public RaycastHit? RaycastCursorTo(Collider targetObjectCollider)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             targetObjectCollider.Raycast(ray, out var hit, Mathf.Infinity);
+            if (hit.transform == null)
+                return null;
             return hit;
         }
 
-        public static bool RaycastToDropZones(out RaycastHit hit, Vector3 pos)
+        protected void Awake()
+        {
+            instance = this;
+        }
+
+        public RaycastHit? RaycastCursorFromHandCameraTo(Collider targetObjectCollider)
+        {
+            Ray ray = handCamera.ScreenPointToRay(Input.mousePosition);
+            targetObjectCollider.Raycast(ray, out var hit, Mathf.Infinity);
+            if (hit.transform == null)
+                return null;
+            return hit;
+        }
+
+        public static bool RaycastToTableDropZones(out RaycastHit hit, Vector3 pos)
         {
             int layerMask = 1 << 9; // DropZone layer
-            Ray ray = new Ray(new Vector3(pos.x, 10.0f, pos.z), Vector3.down);
-            return Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask);
+            Ray ray = new Ray(new Vector3(pos.x, 0.3f, pos.z), Vector3.down);
+            return Physics.Raycast(ray, out hit, 1.0f, layerMask);
+        }
+
+        public static bool RaycastToHandDropZones(out RaycastHit hit, Vector3 pos, Vector3 handPos)
+        {
+            int layerMask = 1 << 9; // DropZone layer
+            Ray ray = new Ray(new Vector3(pos.x, handPos.y + 0.3f, pos.z), Vector3.down);
+            return Physics.Raycast(ray, out hit, 1.0f, layerMask);
         }
     }
 }

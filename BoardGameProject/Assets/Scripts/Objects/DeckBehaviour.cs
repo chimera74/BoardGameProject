@@ -35,13 +35,13 @@ namespace Assets.Scripts.Objects
         {
             Card c = ModelData.TakeTopCard();
             Vector3 pos = new Vector3(root.position.x + 1.2f, 0, root.position.z);
-            cg.SpawnCard(c, pos);
+            cg.SpawnCardOnTable(c, pos);
             if (ModelData.CardCount < 2)
             {
                 // Remove deck and replace with one card
                 Card lastCard = ModelData.TakeTopCard();
                 dndm.OnDragStart -= EnableDropSite;
-                cg.SpawnCard(lastCard, new Vector3(root.position.x, table.transform.position.y, root.position.z));
+                cg.SpawnCardOnTable(lastCard, new Vector3(root.position.x, table.transform.position.y, root.position.z));
                 Despawn();
             }
         }

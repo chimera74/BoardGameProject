@@ -74,7 +74,7 @@ namespace Assets.Scripts.Debug.Editor
             if (tableCollider.Raycast(ray, out var hit, Mathf.Infinity))
             {
                 tablePos = hit.point;
-                if (RaycastingHelper.RaycastToDropZones(out var hit2, tablePos))
+                if (RaycastingHelper.RaycastToTableDropZones(out var hit2, tablePos))
                 {
                     dz = hit2.transform.GetComponent<DropZone>();
                 }

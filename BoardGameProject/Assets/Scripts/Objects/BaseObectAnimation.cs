@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.DataModel;
+﻿using System;
+using Assets.Scripts.DataModel;
 using UnityEngine;
 
 namespace Assets.Scripts.Objects
@@ -31,6 +32,9 @@ namespace Assets.Scripts.Objects
         protected Animator anim;
         protected Table table;
         protected Transform root;
+        protected Transform handPlane;
+
+        protected SimpleActionQueue afterSnapActions;
 
         protected bool allowTilt = true;
 
@@ -38,10 +42,12 @@ namespace Assets.Scripts.Objects
 
         protected virtual void Awake()
         {
+            afterSnapActions = new SimpleActionQueue();
             root = transform.parent;
             anim = GetComponent<Animator>();
             table = FindObjectOfType<Table>();
             beh = GetComponent<BaseObjectBehaviour>();
+            handPlane = GameObject.Find("HandPlane").transform;
         }
 
         protected virtual void Start()
@@ -78,12 +84,18 @@ namespace Assets.Scripts.Objects
                 {
                     root.position = targetPosition;
                     movementType = MoveType.None;
+                    afterSnapActions.InvokeAll();
                 }
                 else
                 {
                     root.position += delta;
                 }
             }
+        }
+
+        public void AddAfterSnapAction(Action action)
+        {
+            afterSnapActions.Enqueue(action);
         }
 
         protected virtual void ProcessCursorFollow()
@@ -96,7 +108,7 @@ namespace Assets.Scripts.Objects
                 var direction = (targetPosition - root.position).normalized;
                 var delta = direction * speed;
 
-                if ((targetPosition - root.position).magnitude < delta.magnitude)
+                if ((targetPosition - root.position).magnitude < 10 * Single.Epsilon)
                 {
                     root.position = targetPosition;
                 }
@@ -133,6 +145,7 @@ namespace Assets.Scripts.Objects
 
         public virtual void MoveToModelPosition()
         {
+            root.SetParent((_model.Area == Area.Table) ? table.transform : handPlane);
             targetPosition = new Vector3(_model.Position.x, root.position.y, _model.Position.y);
             movementType = MoveType.Snap;
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.DataModel;
 using Assets.Scripts.Objects;
 using UnityEngine;
 
@@ -14,9 +15,14 @@ namespace Assets.Scripts
 
         private LinkedList<CardBehaviour> cards;
 
+        protected Transform table;
+        protected Transform handPlane;
+
         public void Awake()
         {
             cards = new LinkedList<CardBehaviour>();
+            table = GameObject.Find("Table").transform;
+            handPlane = GameObject.Find("HandPlane").transform;
         }
 
         public void StartTracking(CardBehaviour card)
@@ -35,6 +41,7 @@ namespace Assets.Scripts
             cards.Remove(card);
             cards.AddLast(card);
             RefreshAllPositions();
+            
         }
 
         private void SetCardYPosition(CardBehaviour card, int order)
@@ -42,7 +49,17 @@ namespace Assets.Scripts
             float yPos = yDelta * order;
             if (yPos < yDelta)
                 yPos = yDelta;
-            card.transform.parent.localPosition = new Vector3(card.transform.parent.localPosition.x, yPos, card.transform.parent.localPosition.z);
+            switch (card.ModelData.Area)
+            {
+                case Area.Hand:
+                    yPos += handPlane.position.y;
+                    break;
+                case Area.Table:
+                default:
+                    yPos += table.position.y;
+                    break;
+            }
+            card.transform.parent.position = new Vector3(card.transform.parent.position.x, yPos, card.transform.parent.position.z);
         }
 
         public void RefreshAllPositions()

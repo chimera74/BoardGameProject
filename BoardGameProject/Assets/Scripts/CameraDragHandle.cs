@@ -28,7 +28,7 @@ namespace Assets.Scripts
 
             // save offset of click point and object transform position
 
-            RaycastHit? hit = RaycastingHelper.RaycastCursorTo(outsideTableCollider);
+            RaycastHit? hit = RaycastingHelper.instance.RaycastCursorTo(outsideTableCollider);
             if (hit != null)
             {
                 dragStartPosition = hit.Value.point;
@@ -39,7 +39,7 @@ namespace Assets.Scripts
         private void OnMouseDrag()
         {
             // raycast to underlaying plane
-            RaycastHit? hit = RaycastingHelper.RaycastCursorTo(outsideTableCollider);
+            RaycastHit? hit = RaycastingHelper.instance.RaycastCursorTo(outsideTableCollider);
             if (hit == null)
                 return;
 

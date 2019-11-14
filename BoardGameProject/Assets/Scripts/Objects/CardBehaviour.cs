@@ -46,7 +46,11 @@ namespace Assets.Scripts.Objects
         protected override void StopDrag()
         {
             base.StopDrag();
-            zim.PutOnTop(this);
+            animScr.AddAfterSnapAction(() =>
+            {
+                zim.PutOnTop(this);
+            });
+            
         }
     }
 }

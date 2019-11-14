@@ -43,21 +43,21 @@ namespace Assets.Scripts
             return null; //TODO return placeholder texture
         }
 
-        public GameObject SpawnCard(Card card, Vector3 pos)
+        public GameObject SpawnCard(Card card, Vector3 pos, long areaId)
+        {
+            if (areaId == 1)
+                return SpawnCardInHand(card);
+            else
+                return SpawnCardOnTable(card, pos);
+        }
+
+        public GameObject SpawnCardOnTable(Card card, Vector3 pos)
         {
             GameObject go = Instantiate(cardPrefab, pos, Quaternion.identity, table);
             var pc = go.GetComponentInChildren<CardBehaviour>();
             pc.ModelData = card;
             dndm.PutAt(pc, pos);
             return go;
-        }
-
-        public GameObject SpawnCard(Card card, Vector3 pos, long areaId)
-        {
-            if (areaId == 1)
-                return SpawnCardInHand(card);
-            else
-                return SpawnCard(card, pos);
         }
 
         public GameObject SpawnCardInHand(Card card)

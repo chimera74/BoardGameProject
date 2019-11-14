@@ -22,7 +22,7 @@ namespace Assets.Scripts.DataModel
         /// <summary>
         /// Area which this object belongs to. I.e card being in hand or on a table.
         /// </summary>
-        public long AreaId { get; set; }
+        public Area Area { get; set; }
         public Player Owner { get; set; }
 
         public BaseObject()
@@ -31,5 +31,11 @@ namespace Assets.Scripts.DataModel
             Position = Vector2.zero;
             Owner = null;
         }
+    }
+
+    public enum Area
+    {
+        Table,
+        Hand
     }
 }
