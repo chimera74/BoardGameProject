@@ -1,29 +1,32 @@
-﻿using Assets.Scripts;
+﻿using System;
+using System.Diagnostics;
+using Assets.Scripts;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
     public class CameraDragHandle : MonoBehaviour
     {
-        private Collider outsideTableCollider;
 
-        // Use this for initialization
-        void Start()
+        public float dragCoefficient = 0.01f;
+
+        protected Collider outsideTableCollider;
+        protected Camera mainCamera;
+
+        protected Vector3 dragStartPosition;
+        protected Vector3 cameraStartPosition;
+        protected CameraControls cc;
+
+        protected bool isMoving = false;
+
+        protected void Awake()
         {
+            mainCamera = Camera.main;
             outsideTableCollider = FindObjectOfType<Table>().outsideTableCollider;
+            cc = FindObjectOfType<CameraControls>();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        // Camera dragging (actually table dragging)
-        Vector3 offset;
-        Vector3 dragStartPosition;
-
-        void OnMouseDown()
+        protected void OnMouseDown()
         {
 
             // save offset of click point and object transform position
@@ -31,21 +34,19 @@ namespace Assets.Scripts
             RaycastHit? hit = RaycastingHelper.instance.RaycastCursorTo(outsideTableCollider);
             if (hit != null)
             {
-                dragStartPosition = hit.Value.point;
-                offset = transform.position - dragStartPosition;
+                dragStartPosition = Input.mousePosition;
+                cameraStartPosition = mainCamera.transform.position;
+                isMoving = true;
             }
         }
 
-        private void OnMouseDrag()
+        protected void OnMouseDrag()
         {
-            // raycast to underlaying plane
-            RaycastHit? hit = RaycastingHelper.instance.RaycastCursorTo(outsideTableCollider);
-            if (hit == null)
-                return;
-
-            // hitpoint + offset is a new position of an object
-            var newPos = hit.Value.point + offset;
-            transform.position = newPos;
+            var offset = dragStartPosition - Input.mousePosition;
+            offset.z = offset.y;
+            offset.y = 0;
+            var targetCameraPos = cameraStartPosition + (offset * dragCoefficient);
+            cc.SmoothMoveCamera(targetCameraPos);
         }
     }
 }

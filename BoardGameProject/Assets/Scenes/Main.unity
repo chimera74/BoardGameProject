@@ -610,6 +610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44020080b59fe7d45b6fd1fd37ba1997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dragCoefficient: 0.01
 --- !u!114 &1063851110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,7 +735,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1305132991}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.3700004, z: 3.1000004}
+  m_LocalPosition: {x: 0, y: -2.37, z: 7.09}
   m_LocalScale: {x: 20, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 335237637}
@@ -930,6 +931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be001150ec5e5cf4abbef166661004e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultCameraPosition: {x: 0, y: 15, z: -2}
   defaultHeight: 0
   defaultXOffset: 0
   defaultZOffset: 0
@@ -940,6 +942,8 @@ MonoBehaviour:
   minCameraHeight: 5
   maxCameraHeight: 15
   enableDirectionalButtonsPanning: 1
+  minSpeed: 0.005
+  targetFollowSpeed: 0.16
 --- !u!114 &1706378661
 MonoBehaviour:
   m_ObjectHideFlags: 0

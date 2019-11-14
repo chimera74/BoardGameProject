@@ -108,7 +108,7 @@ namespace Assets.Scripts.Objects
                 var direction = (targetPosition - root.position).normalized;
                 var delta = direction * speed;
 
-                if ((targetPosition - root.position).magnitude < 10 * Single.Epsilon)
+                if ((targetPosition - root.position).magnitude < 0.005)
                 {
                     root.position = targetPosition;
                 }
@@ -145,7 +145,7 @@ namespace Assets.Scripts.Objects
 
         public virtual void MoveToModelPosition()
         {
-            root.SetParent((_model.Area == Area.Table) ? table.transform : handPlane);
+            root.SetParent((_model.Area == Area.Table) ? null : handPlane);
             targetPosition = new Vector3(_model.Position.x, root.position.y, _model.Position.y);
             movementType = MoveType.Snap;
         }

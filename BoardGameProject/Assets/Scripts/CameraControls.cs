@@ -6,6 +6,7 @@ namespace Assets.Scripts
     public class CameraControls : MonoBehaviour
     {
 
+        public Vector3 defaultCameraPosition;
         public float defaultHeight;
         public float defaultXOffset;
         public float defaultZOffset;
@@ -19,22 +20,29 @@ namespace Assets.Scripts
         public float minCameraHeight = 5.0f;
         public float maxCameraHeight = 15.0f;
 
-        private Vector3 lastPosition;
-
         public bool enableDirectionalButtonsPanning = true;
 
-        public void Start()
+        [Header("Camera smooth")]
+        public float minSpeed = 0.005f;
+        public float targetFollowSpeed = 0.5f;
+
+        protected Vector3 lastPosition;
+        protected bool isMoving;
+        protected Vector3 targetCameraPos;
+
+        protected void Awake()
         {
-            transform.position = new Vector3(defaultXOffset, defaultHeight, defaultZOffset);
+            transform.position = defaultCameraPosition;
+            targetCameraPos = defaultCameraPosition;
         }
 
-        public void LateUpdate()
+        protected void LateUpdate()
         {
             ProcessKeyControls();
-            //ProcessMouseControls();
+            ProcessCameraSmoothMove();
         }
 
-        private void ProcessMouseControls()
+        protected void ProcessMouseControls()
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -49,7 +57,7 @@ namespace Assets.Scripts
             }
         }
 
-        private void ProcessKeyControls()
+        protected void ProcessKeyControls()
         {
 
             if (!enableDirectionalButtonsPanning)
@@ -60,19 +68,18 @@ namespace Assets.Scripts
 
             float dy = Input.GetAxis("Mouse ScrollWheel") * zoomSpd;
 
-            //print(Input.GetAxis("Mouse ScrollWheel"));
+            var dVector = new Vector3(dx,dy,dz);
+            if (dVector.magnitude < 0.005f)
+                return;
 
-            Vector3 position = transform.position;
-            position.x += dx;
-            position.z += dz;
-            position.y += dy;
+            Vector3 position = transform.position + dVector;
 
             if (position.y > maxCameraHeight)
                 position.y = maxCameraHeight;
             if (position.y < minCameraHeight)
                 position.y = minCameraHeight;
-
-            transform.position = position;
+            
+            SmoothMoveCamera(position);
         }
 
         public void LookAt(Vector3 lookPos)
@@ -84,6 +91,40 @@ namespace Assets.Scripts
 
             transform.position = newPosition;
             transform.LookAt(lookPos);
+        }
+
+        protected void ProcessCameraSmoothMove()
+        {
+            if (!isMoving)
+                return;
+
+            var speed = targetFollowSpeed * (targetCameraPos - transform.position).magnitude;
+            if (speed < minSpeed)
+                speed = minSpeed;
+            var direction = (targetCameraPos - transform.position).normalized;
+            var delta = direction * speed;
+
+            if ((targetCameraPos - transform.position).magnitude < 0.005)
+            {
+                transform.position = targetCameraPos;
+                isMoving = false;
+            }
+            else
+            {
+                transform.position += delta;
+            }
+        }
+
+        public void SmoothMoveCamera(Vector3 target)
+        {
+            targetCameraPos = target;
+            isMoving = true;
+        }
+
+        public void SetCameraPos(Vector3 target)
+        {
+            isMoving = false;
+            transform.position = target;
         }
     }
 }

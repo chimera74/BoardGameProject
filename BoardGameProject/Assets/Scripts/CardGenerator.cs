@@ -53,7 +53,7 @@ namespace Assets.Scripts
 
         public GameObject SpawnCardOnTable(Card card, Vector3 pos)
         {
-            GameObject go = Instantiate(cardPrefab, pos, Quaternion.identity, table);
+            GameObject go = Instantiate(cardPrefab, pos, Quaternion.identity);
             var pc = go.GetComponentInChildren<CardBehaviour>();
             pc.ModelData = card;
             dndm.PutAt(pc, pos);
@@ -77,7 +77,7 @@ namespace Assets.Scripts
                 newDeck.AddToTheBottom(card);
             }
 
-            GameObject go = Instantiate(deckPrefab, pos, Quaternion.identity, table);
+            GameObject go = Instantiate(deckPrefab, pos, Quaternion.identity);
             var deckBhvr = go.GetComponentInChildren<DeckBehaviour>();
             deckBhvr.ModelData = newDeck;
             return go;

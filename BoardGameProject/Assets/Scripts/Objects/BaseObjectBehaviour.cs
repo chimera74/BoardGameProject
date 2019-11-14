@@ -156,7 +156,7 @@ namespace Assets.Scripts.Objects
                 if (isSwitching)
                 {
                     root.position = newPos;
-                    root.SetParent(_isInHandPlane ? handPlaneCollider.transform : table.transform);
+                    root.SetParent(_isInHandPlane ? handPlaneCollider.transform : null);
                 }
 
                 animScr.targetPosition = newPos;
