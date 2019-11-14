@@ -13,6 +13,11 @@ namespace Assets.Scripts
         public Camera mainCamera;
         public Camera handCamera;
 
+        protected void Awake()
+        {
+            instance = this;
+        }
+
         public RaycastHit? RaycastCursorTo(Collider targetObjectCollider)
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -22,11 +27,6 @@ namespace Assets.Scripts
             return hit;
         }
 
-        protected void Awake()
-        {
-            instance = this;
-        }
-
         public RaycastHit? RaycastCursorFromHandCameraTo(Collider targetObjectCollider)
         {
             Ray ray = handCamera.ScreenPointToRay(Input.mousePosition);
@@ -34,6 +34,27 @@ namespace Assets.Scripts
             if (hit.transform == null)
                 return null;
             return hit;
+        }
+
+        public RaycastHit? RaycastCursorFromBothCamerasTo(Collider targetObjectCollider)
+        {
+            RaycastHit? hit1 = RaycastCursorTo(targetObjectCollider);
+            if (hit1 != null)
+            {
+                return hit1;
+            }
+            else
+            {
+                RaycastHit? hit2 = RaycastCursorFromHandCameraTo(targetObjectCollider);
+                if (hit2 != null)
+                {
+                    return hit2;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         public static bool RaycastToTableDropZones(out RaycastHit hit, Vector3 pos)

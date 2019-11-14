@@ -104,7 +104,7 @@ namespace Assets.Scripts
             var direction = (targetCameraPos - transform.position).normalized;
             var delta = direction * speed;
 
-            if ((targetCameraPos - transform.position).magnitude < 0.005)
+            if (speed < 0.001f || (targetCameraPos - transform.position).magnitude < 0.005)
             {
                 transform.position = targetCameraPos;
                 isMoving = false;

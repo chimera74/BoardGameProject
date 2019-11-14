@@ -80,7 +80,7 @@ namespace Assets.Scripts.Objects
                 var direction = (targetPosition - root.position).normalized;
                 var delta = direction * snapSpeed;
 
-                if ((targetPosition - root.position).magnitude < delta.magnitude)
+                if ((direction.magnitude < 0.001f) || (targetPosition - root.position).magnitude < delta.magnitude)
                 {
                     root.position = targetPosition;
                     movementType = MoveType.None;

@@ -1,7 +1,9 @@
-﻿using Assets.Scripts.DataModel;
+﻿using System.Numerics;
+using Assets.Scripts.DataModel;
 using Assets.Scripts.Debug;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Assets.Scripts.Objects
 {
@@ -22,6 +24,7 @@ namespace Assets.Scripts.Objects
         protected DragAndDropManager dndm;
         protected BaseObjectAnimation animScr;
         protected BaseObjectAppearance apprn;
+        protected Collider coll;
 
         protected virtual void Awake()
         {
@@ -32,6 +35,8 @@ namespace Assets.Scripts.Objects
             animScr = GetComponent<BaseObjectAnimation>();
             apprn = GetComponent<BaseObjectAppearance>();
             handPlaneCollider = GameObject.Find("HandPlane").GetComponent<Collider>();
+            coll = GetComponent<Collider>();
+
         }
 
         protected virtual void Start()
@@ -111,7 +116,7 @@ namespace Assets.Scripts.Objects
 
         protected virtual void Drag_OnMouseDown()
         {
-            RaycastHit? hit = RaycastingHelper.instance.RaycastCursorTo(table.tableCollider);
+            RaycastHit? hit = RaycastingHelper.instance.RaycastCursorFromBothCamerasTo(coll);
             if (hit != null)
             {
                 _dragStartPosition = hit.Value.point;
@@ -144,7 +149,9 @@ namespace Assets.Scripts.Objects
 
             if (!_isDragMode)
             {
-                if (Vector3.Distance(hitPoint, _dragStartPosition) > dragTriggerDelta)
+                RaycastHit? hit = RaycastingHelper.instance.RaycastCursorFromBothCamerasTo(coll);
+
+                if (hit == null || Vector3.Distance(hit.Value.point, _dragStartPosition) > dragTriggerDelta)
                 {
                     animScr.targetPosition = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z);
                     StartDrag();
