@@ -46,14 +46,7 @@ namespace Assets.Scripts
             else
             {
                 RaycastHit? hit2 = RaycastCursorFromHandCameraTo(targetObjectCollider);
-                if (hit2 != null)
-                {
-                    return hit2;
-                }
-                else
-                {
-                    return null;
-                }
+                return hit2;
             }
         }
 

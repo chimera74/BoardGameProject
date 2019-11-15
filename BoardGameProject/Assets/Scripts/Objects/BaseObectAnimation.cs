@@ -33,7 +33,7 @@ namespace Assets.Scripts.Objects
         protected Table table;
         protected Transform root;
         protected Transform handPlane;
-
+        
         protected SimpleActionQueue afterSnapActions;
 
         protected bool allowTilt = true;
@@ -145,9 +145,45 @@ namespace Assets.Scripts.Objects
 
         public virtual void MoveToModelPosition()
         {
-            root.SetParent((_model.Area == Area.Table) ? null : handPlane);
-            targetPosition = new Vector3(_model.Position.x, root.position.y, _model.Position.y);
+            MoveToModelCameraSpace();
+            float yPos = _model.Area == Area.Table ? table.transform.position.y : handPlane.position.y;
+            targetPosition = new Vector3(_model.Position.x, yPos, _model.Position.y);
             movementType = MoveType.Snap;
+        }
+
+        /// <summary>
+        /// Moves object to other camera space if needed.
+        /// </summary>
+        private void MoveToModelCameraSpace()
+        {
+            // if current camera space does not match model - fix
+            if ((root.parent == null) != (_model.Area == Area.Table))
+            {
+                // get current camera
+                Camera currentCamera;
+                Camera otherCamera;
+                if (root.parent == null)
+                {
+                    currentCamera = RaycastingHelper.instance.mainCamera;
+                    otherCamera = RaycastingHelper.instance.handCamera;
+                }
+                else
+                {
+                    currentCamera = RaycastingHelper.instance.handCamera;
+                    otherCamera = RaycastingHelper.instance.mainCamera;
+                }
+
+                // get relative position to current camera
+                var relPos = currentCamera.WorldToViewportPoint(root.position);
+
+                // calculate absolute position within other camera
+                var newPos = otherCamera.ViewportToWorldPoint(relPos);
+
+                // move
+                root.position = newPos;
+                
+                root.SetParent((_model.Area == Area.Table) ? null : handPlane);
+            }
         }
 
         public virtual void StartCursorFollow()

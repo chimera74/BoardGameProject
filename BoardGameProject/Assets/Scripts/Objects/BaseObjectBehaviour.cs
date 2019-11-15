@@ -204,6 +204,7 @@ namespace Assets.Scripts.Objects
                 else
                 {
                     animScr.MoveToModelPosition();
+                    endDrag();
                     return;
                 }
             }
@@ -212,9 +213,17 @@ namespace Assets.Scripts.Objects
             if (!dndm.PutAt(this, area, dropPos))
                 animScr.MoveToModelPosition();
 
+            endDrag();
+        }
+        
+        private void endDrag()
+        {
             _isDragMode = false;
             dndm.TriggerOnDragStop();
-            animScr.StopHover();
+            animScr.AddAfterSnapAction(() =>
+            {
+                animScr.StopHover();
+            });
             animScr.StopCursorFollow();
         }
 
