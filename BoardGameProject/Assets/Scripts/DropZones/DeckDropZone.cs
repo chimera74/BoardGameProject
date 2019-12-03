@@ -36,10 +36,10 @@ namespace Assets.Scripts.DropZones
 
         public void DropCard(CardBehaviour droppingCard, Vector3 position)
         {   
-            // destroy dropping card
+            // destroy dropping cardData
             Destroy(droppingCard.transform.parent.gameObject);
 
-            // add card to the laying deck
+            // add cardData to the laying deck
             if (Input.GetKey(KeyCode.LeftAlt))
                 deckBehaviour.ModelData.AddToTheBottom(droppingCard.ModelData);
             else

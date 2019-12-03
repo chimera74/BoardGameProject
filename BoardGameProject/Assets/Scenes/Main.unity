@@ -342,10 +342,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 978216902}
-  - component: {fileID: 978216903}
   - component: {fileID: 978216904}
   - component: {fileID: 978216905}
   - component: {fileID: 978216906}
+  - component: {fileID: 978216903}
   m_Layer: 0
   m_Name: GlobalScripts
   m_TagString: Untagged
@@ -376,14 +376,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 978216901}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e2c276919bcaa84c98b64c1d6fa55f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 588d8fdf7b01aab48baa742caea5b610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 1550130829178118, guid: 724e7ca5c02d2b4468f7f53416fa3f2d, type: 3}
   cardInHandPrefab: {fileID: 2507428362775444198, guid: 839d2e90c45e95e45b0dac96b90ce75c,
     type: 3}
   deckPrefab: {fileID: 1932238984191516, guid: 11bc8c8f1d63537418e1d0cac13b4a5f, type: 3}
-  faceTextures: []
+  cards:
+  - {fileID: 11400000, guid: 8e6f16f4c87550442b23d7d34203b209, type: 2}
 --- !u!114 &978216904
 MonoBehaviour:
   m_ObjectHideFlags: 0

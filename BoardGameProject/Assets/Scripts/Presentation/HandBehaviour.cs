@@ -60,7 +60,7 @@ namespace Assets.Scripts.Presentation
         public void AddCard(CardInHandBehaviour card)
         {
             ModelData.AddCard(card.ModelData);
-            // stop drag for card
+            // stop drag for cardData
             // position it in hand
         }
 

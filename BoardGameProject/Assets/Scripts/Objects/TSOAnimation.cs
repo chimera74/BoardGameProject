@@ -7,7 +7,7 @@ namespace Assets.Scripts.Objects
     {
         [Header("Flipping")]
         public float flipSpeed = 10.0f;
-        public float flipHeight = 1.0f; // should be at least half width of the card
+        public float flipHeight = 1.0f; // should be at least half width of the cardData
 
         private TwoSidedObject _model;
         private Quaternion _endFlipRot;
@@ -89,7 +89,7 @@ namespace Assets.Scripts.Objects
                 var step = flipSpeed * Time.deltaTime;
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, _endFlipRot, step);
 
-                // rise and lower the card during flip
+                // rise and lower the cardData during flip
                 float startHeight = transform.position.y;
                 float maxHeight = (flipHeight > startHeight) ? flipHeight : startHeight;
 

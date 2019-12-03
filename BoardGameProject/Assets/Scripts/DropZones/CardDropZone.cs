@@ -37,16 +37,16 @@ namespace Assets.Scripts.DropZones
         }
 
         public void DropCard(CardBehaviour droppingCard, Vector3 position) { 
-            // the position of the laying card will be position of the deck
+            // the position of the laying cardData will be position of the deck
             Vector3 pos = transform.parent.position;
 
-            // destroy laying card (this)
+            // destroy laying cardData (this)
             Destroy(transform.parent.gameObject);
 
-            // destroy dropping card (parameter)
+            // destroy dropping cardData (parameter)
             Destroy(droppingCard.transform.parent.gameObject);
 
-            // create a deck with this 2 cards on a position of laying card
+            // create a deck with this 2 cards on a position of laying cardData
             List<Card> cards = new List<Card>();
             if (Input.GetKey(KeyCode.LeftAlt))
             {
@@ -66,10 +66,10 @@ namespace Assets.Scripts.DropZones
         {
             var pos = cardBehaviour.transform.parent.position;
 
-            // destroy laying card
+            // destroy laying cardData
             Destroy(cardBehaviour.transform.parent.gameObject);
 
-            // add card to the dropping deck
+            // add cardData to the dropping deck
             if (Input.GetKey(KeyCode.LeftAlt))
             {
                 droppingDeck.ModelData.AddToTheTop(cardBehaviour.ModelData);

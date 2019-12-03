@@ -15,7 +15,7 @@ namespace Assets.Scripts
         [HideInInspector]
         public Collider tableCollider;
 
-        private PlayingCardGenerator pcg;
+        private WACardGenerator cg;
 
         public void Awake()
         {
@@ -25,7 +25,7 @@ namespace Assets.Scripts
         // Use this for initialization
         void Start()
         {
-            pcg = FindObjectOfType<PlayingCardGenerator>();
+            cg = FindObjectOfType<WACardGenerator>();
         }
 
         // Update is called once per frame
@@ -55,7 +55,7 @@ namespace Assets.Scripts
 
         private void OnRightMouseClick(PointerEventData pointerEventData)
         {
-            pcg.GenerateRandomPlayingCard(pointerEventData.pointerPressRaycast.worldPosition, true);
+            cg.GenerateCard(cg.CreateCardFromSO(cg.cards[0]), pointerEventData.pointerPressRaycast.worldPosition);
         }
     }
 }

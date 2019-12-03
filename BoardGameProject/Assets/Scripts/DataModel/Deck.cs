@@ -5,8 +5,8 @@ using System.Linq;
 namespace Assets.Scripts.DataModel
 {
     /*
-     * Deck is presented as a linked list where first element is the card with visible face and last element 
-     * is the card with visible back. List is not reordered every time IsFaceUp property is changed. Most methods do
+     * Deck is presented as a linked list where first element is the cardData with visible face and last element 
+     * is the cardData with visible back. List is not reordered every time IsFaceUp property is changed. Most methods do
      * respect IsFaceUp property to produce their result, e.g., TakeTopCard().
      */
     public class Deck : TwoSidedObject

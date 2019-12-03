@@ -9,7 +9,7 @@ namespace Assets.Scripts.Objects
         [HideInInspector]
         public Texture2D backTexture;
 
-        [Tooltip("Number of card in the deck for it to appear as max size.")]
+        [Tooltip("Number of cardData in the deck for it to appear as max size.")]
         public int fullDeckCount = 52;
 
         protected DeckBehaviour db;
