@@ -98,6 +98,9 @@ namespace Assets.Scripts.DataModel
 
         public void AddToTheTop(Card card)
         {
+            if (!card.allowStacking)
+                return;
+
             card.IsFaceUp = IsFaceUp;
             if (IsFaceUp)
             {
@@ -131,6 +134,9 @@ namespace Assets.Scripts.DataModel
 
         public void AddToTheBottom(Card card)
         {
+            if (!card.allowStacking)
+                return;
+
             if (!IsFaceUp)
             {
                 _cardList.AddFirst(card);

@@ -16,5 +16,6 @@ namespace Assets.Scripts.Scriptables
         public string description;
         public Texture2D image;
         public WACardType type;
+        public bool allowStacking;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using IngameDebugConsole;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -30,10 +31,13 @@ namespace Assets.Scripts
         protected bool isMoving;
         protected Vector3 targetCameraPos;
 
+        protected DebugLogManager debugConsole;
+
         protected void Awake()
         {
             transform.position = defaultCameraPosition;
             targetCameraPos = defaultCameraPosition;
+            debugConsole = FindObjectOfType<DebugLogManager>();
         }
 
         protected void LateUpdate()
@@ -59,6 +63,9 @@ namespace Assets.Scripts
 
         protected void ProcessKeyControls()
         {
+
+            if (debugConsole.IsOpen())
+                return;
 
             if (!enableDirectionalButtonsPanning)
                 return;

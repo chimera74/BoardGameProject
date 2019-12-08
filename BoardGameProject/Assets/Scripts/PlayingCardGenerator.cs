@@ -13,7 +13,7 @@ namespace Assets.Scripts
         [Header("Textures")]
         public Texture2D[] faceTextures;
 
-        public override void Start()
+        protected override void Start()
         {
             base.Start();
             faceTextures = new Texture2D[52];
@@ -54,7 +54,7 @@ namespace Assets.Scripts
         {
             var value = (PlayingCardValue) UnityEngine.Random.Range(0, 52);
             PlayingCard cardData = new PlayingCard() {Value = value};
-            SpawnCardOnTable(cardData, pos);
+            SpawnCard(cardData, Area.Table, pos);
         }
 
 

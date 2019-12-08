@@ -55,7 +55,7 @@ namespace Assets.Scripts
 
         private void OnRightMouseClick(PointerEventData pointerEventData)
         {
-            cg.GenerateCard(cg.CreateCardFromSO(cg.cards[0]), pointerEventData.pointerPressRaycast.worldPosition);
+            cg.GenerateCard(0, pointerEventData.pointerPressRaycast.worldPosition);
         }
     }
 }

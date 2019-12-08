@@ -2,10 +2,11 @@
 using System.Diagnostics;
 using Assets.Scripts;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts
 {
-    public class CameraDragHandle : MonoBehaviour
+    public class CameraDragHandle : MonoBehaviour, IPointerDownHandler
     {
 
         public float dragCoefficient = 0.01f;
@@ -26,11 +27,8 @@ namespace Assets.Scripts
             cc = FindObjectOfType<CameraControls>();
         }
 
-        protected void OnMouseDown()
+        public void OnPointerDown(PointerEventData data)
         {
-
-            // save offset of click point and object transform position
-
             RaycastHit? hit = RaycastingHelper.instance.RaycastCursorTo(outsideTableCollider);
             if (hit != null)
             {
@@ -42,11 +40,19 @@ namespace Assets.Scripts
 
         protected void OnMouseDrag()
         {
-            var offset = dragStartPosition - Input.mousePosition;
-            offset.z = offset.y;
-            offset.y = 0;
-            var targetCameraPos = cameraStartPosition + (offset * dragCoefficient);
-            cc.SmoothMoveCamera(targetCameraPos);
+            if (isMoving)
+            {
+                var offset = dragStartPosition - Input.mousePosition;
+                offset.z = offset.y;
+                offset.y = 0;
+                var targetCameraPos = cameraStartPosition + (offset * dragCoefficient);
+                cc.SmoothMoveCamera(targetCameraPos);
+            }
+        }
+
+        protected void OnMouseUp()
+        {
+            isMoving = false;
         }
     }
 }

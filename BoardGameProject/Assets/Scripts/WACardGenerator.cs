@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Objects;
 using Assets.Scripts.Scriptables;
+using IngameDebugConsole;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -15,7 +16,15 @@ namespace Assets.Scripts
 
         private Dictionary<long, WACardSO> cardsDictionary;
 
-        public override void Start()
+        protected DebugLogManager debugConsole;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            debugConsole = FindObjectOfType<DebugLogManager>();
+        }
+
+        protected override void Start()
         {
             base.Start();
             LoadCards();
@@ -32,15 +41,18 @@ namespace Assets.Scripts
 
         public void Update()
         {
+            if (debugConsole.IsOpen())
+                return;
+
             if (Input.GetButtonDown("Generate Card"))
             {
-                GenerateCard(CreateCardFromSO(cardsDictionary[0]), new Vector3());
+                GenerateCard(0, new Vector3());
             }
         }
 
         public WACard CreateCardFromSO(WACardSO so)
         {
-            var card = new WACard() { id = so.id, name = so.name, description = so.description, type = so.type};
+            var card = new WACard() { id = so.id, name = so.name, description = so.description, type = so.type, allowStacking = so.allowStacking};
             return card;
         }
 
@@ -54,9 +66,25 @@ namespace Assets.Scripts
             return base.GetCardFaceTexture(card);
         }
 
-        public void GenerateCard(WACard card, Vector3 pos)
+        public void GenerateCard(WACard card, Area area, Vector3 pos)
         {
-            SpawnCardOnTable(card, pos);
+            SpawnCard(card, area, pos);
+        }
+
+        public void GenerateCard(long id, Vector3 pos)
+        {
+            if (cardsDictionary.ContainsKey(id))
+            {
+                GenerateCard(CreateCardFromSO(cardsDictionary[id]), Area.Hand, pos);
+            }
+        }
+
+        public void GenerateCard(long id, Vector3 pos, Area area)
+        {
+            if (cardsDictionary.ContainsKey(id))
+            {
+                GenerateCard(CreateCardFromSO(cardsDictionary[id]), area, pos);
+            }
         }
     }
 }

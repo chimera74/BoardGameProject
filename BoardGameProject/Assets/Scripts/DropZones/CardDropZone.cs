@@ -19,9 +19,15 @@ namespace Assets.Scripts.DropZones
 
         public override bool Drop(BaseObjectBehaviour droppingObj, Vector3 position)
         {
+            if (!cardBehaviour.ModelData.allowStacking)
+                return false;
+
             CardBehaviour droppingCard = droppingObj as CardBehaviour;
             if (droppingCard != null)
             {
+                if (!droppingCard.ModelData.allowStacking)
+                    return false;
+
                 DropCard(droppingCard, position);
                 return true;
             }

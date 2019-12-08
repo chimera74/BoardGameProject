@@ -13,7 +13,6 @@ namespace Assets.Scripts
     {
         [Header("Prefabs")]
         public GameObject cardPrefab;
-        public GameObject cardInHandPrefab;
 
         public GameObject deckPrefab;
 
@@ -21,14 +20,14 @@ namespace Assets.Scripts
         protected DragAndDropManager dndm;
         protected Transform hand;
 
-        public void Awake()
+        protected virtual void Awake()
         {
             dndm = FindObjectOfType<DragAndDropManager>();
             table = FindObjectOfType<Table>().transform;
             hand = FindObjectOfType<HandBehaviour>().transform;
         }
 
-        public virtual void Start()
+        protected virtual void Start()
         {
             
         }
@@ -43,30 +42,18 @@ namespace Assets.Scripts
             return null; //TODO return placeholder texture
         }
 
-        public GameObject SpawnCard(Card card, Vector3 pos, long areaId)
-        {
-            if (areaId == 1)
-                return SpawnCardInHand(card);
-            else
-                return SpawnCardOnTable(card, pos);
-        }
-
-        public GameObject SpawnCardOnTable(Card card, Vector3 pos)
+        public GameObject SpawnCard(Card card, Area area, Vector3 pos)
         {
             GameObject go = Instantiate(cardPrefab, pos, Quaternion.identity);
             var pc = go.GetComponentInChildren<CardBehaviour>();
             pc.ModelData = card;
-            dndm.PutAt(pc, pos);
+            dndm.PutAt(pc, area, pos);
             return go;
         }
 
-        public GameObject SpawnCardInHand(Card card)
+        public GameObject SpawnCard(Card card)
         {
-            Quaternion rot = hand.rotation * Quaternion.Euler(-90, 0, 0);
-            GameObject go = Instantiate(cardInHandPrefab, hand.position, rot, hand);
-            var pc = go.GetComponentInChildren<CardInHandBehaviour>();
-            pc.ModelData = card;
-            return go;
+            return SpawnCard(card, Area.Table, Vector3.zero);
         }
 
         public GameObject SpawnDeck(ICollection<Card> cards, Vector3 pos, bool faceUp)

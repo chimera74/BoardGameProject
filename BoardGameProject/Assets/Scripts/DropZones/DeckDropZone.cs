@@ -20,6 +20,9 @@ namespace Assets.Scripts.DropZones
             CardBehaviour droppingCard = droppingObj as CardBehaviour;
             if (droppingCard != null)
             {
+                if (!droppingCard.ModelData.allowStacking)
+                    return false;
+
                 DropCard(droppingCard, position);
                 return true;
             }

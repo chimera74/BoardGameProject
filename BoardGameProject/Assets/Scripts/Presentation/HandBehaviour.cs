@@ -40,9 +40,9 @@ namespace Assets.Scripts.Presentation
         private void GenerateMockCards()
         {
             // Test Objects
-            cg.SpawnCardInHand(new PlayingCard() {Value = PlayingCardValue._2H});
-            cg.SpawnCardInHand(new PlayingCard() {Value = PlayingCardValue._10S});
-            cg.SpawnCardInHand(new PlayingCard() {Value = PlayingCardValue._AD});
+            cg.SpawnCard(new PlayingCard() {Value = PlayingCardValue._2H});
+            cg.SpawnCard(new PlayingCard() {Value = PlayingCardValue._10S});
+            cg.SpawnCard(new PlayingCard() {Value = PlayingCardValue._AD});
 
             foreach (var cihb in GetComponentsInChildren<CardInHandBehaviour>())
             {

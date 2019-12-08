@@ -8,6 +8,6 @@ namespace Assets.Scripts.DataModel
     [Serializable]
     public class Card : TwoSidedObject
     {
-        
+        public bool allowStacking;
     }
 }
