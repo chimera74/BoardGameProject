@@ -641,9 +641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588d8fdf7b01aab48baa742caea5b610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 1550130829178118, guid: 724e7ca5c02d2b4468f7f53416fa3f2d, type: 3}
-  cardInHandPrefab: {fileID: 2507428362775444198, guid: 839d2e90c45e95e45b0dac96b90ce75c,
-    type: 3}
+  cardPrefab: {fileID: 1550130829178118, guid: 10502d2cb5bb625469ccb251748453e8, type: 3}
   deckPrefab: {fileID: 1932238984191516, guid: 11bc8c8f1d63537418e1d0cac13b4a5f, type: 3}
   cards:
   - {fileID: 11400000, guid: 8e6f16f4c87550442b23d7d34203b209, type: 2}
@@ -1277,6 +1275,14 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11452418, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
+      propertyPath: singleton
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452418, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
+      propertyPath: enablePopup
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 22428984, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
@@ -1371,6 +1377,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22495692, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22505754, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
+      propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
@@ -1583,6 +1593,8 @@ GameObject:
   - component: {fileID: 1809856991}
   - component: {fileID: 1809856993}
   - component: {fileID: 1809856992}
+  - component: {fileID: 1809856995}
+  - component: {fileID: 1809856994}
   m_Layer: 5
   m_Name: Tooltip
   m_TagString: Untagged
@@ -1648,6 +1660,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809856990}
   m_CullTransparentMesh: 0
+--- !u!114 &1809856994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809856990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c55cb7453a830c44aebfc68c874196d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameText: {fileID: 560659945}
+  descriptionText: {fileID: 516380723}
+--- !u!225 &1809856995
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809856990}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!21 &1836094064
 Material:
   serializedVersion: 6

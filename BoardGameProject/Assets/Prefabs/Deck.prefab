@@ -212,7 +212,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1369505544693268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ef62d5b6ecf22648858fdec852143d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ae1a1d63a0c2d749945f8cb059b8de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dragTriggerDelta: 0.05
@@ -226,17 +226,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1369505544693268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6e38253c3130854685ea679fc22cba1, type: 3}
+  m_Script: {fileID: 11500000, guid: dd6b483350d6eee4499b0d80851f9861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursorFollowSpeed: 0.2
-  minSpeed: 0.003
-  tiltPower: 10
-  maxTiltAngle: 20
+  cursorFollowSpeed: 0.4
+  minSpeed: 0.005
+  tiltPower: 5
+  maxTiltAngle: 30
   snapSpeed: 1
   targetPosition: {x: 0, y: 0, z: 0}
-  flipSpeed: 500
-  flipHeight: 0.6
+  flipSpeed: 10
+  flipHeight: 1
 --- !u!114 &3329445671332800195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1369505544693268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52506620575f75447807be9abba848b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 8156665562f38d94485932bfb4f964f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   faceTexture: {fileID: 0}

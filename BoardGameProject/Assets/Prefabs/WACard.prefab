@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 23831048400494144}
   - component: {fileID: 64729638321741862}
   - component: {fileID: 5964008087230577863}
-  - component: {fileID: 114375593451346244}
+  - component: {fileID: 3355550063283399995}
   - component: {fileID: 7861644481306295585}
   - component: {fileID: 4309840717977827059}
   m_Layer: 0
@@ -116,7 +116,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114375593451346244
+--- !u!114 &3355550063283399995
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1449752812718442}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e08b8165079e6624d9a4c0e394666499, type: 3}
+  m_Script: {fileID: 11500000, guid: f8057340dc10eb14bb2116201fa7a6bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dragTriggerDelta: 0.2
@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4885374554126032}
   m_Layer: 0
-  m_Name: Card
+  m_Name: WACard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

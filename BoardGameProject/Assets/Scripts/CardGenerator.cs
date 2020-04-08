@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Assets.Scripts.DataModel;
-using Assets.Scripts.Objects;
 using Assets.Scripts.Presentation;
 
 namespace Assets.Scripts

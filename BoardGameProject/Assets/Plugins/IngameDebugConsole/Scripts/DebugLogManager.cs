@@ -49,7 +49,7 @@ namespace IngameDebugConsole
 
 		[SerializeField]
 		[HideInInspector]
-		private bool startInPopupMode = true;
+		private bool startInPopupMode = false;
 
 		[SerializeField]
 		[HideInInspector]
@@ -299,7 +299,8 @@ namespace IngameDebugConsole
 			{
 				ShowLogWindow();
 				popupManager.gameObject.SetActive( enablePopup );
-			}
+                ShowPopup();
+            }
 		}
 
 		// Window is resized, update the list
