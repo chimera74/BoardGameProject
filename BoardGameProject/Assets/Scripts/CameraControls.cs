@@ -18,8 +18,8 @@ namespace Assets.Scripts
 
         public float mouseSensitivity = 1.0f;
 
-        public float minCameraHeight = 5.0f;
-        public float maxCameraHeight = 15.0f;
+        public float minCameraDistance = 6.0f;
+        public float maxCameraDistance = 10.0f;
 
         public bool enableDirectionalButtonsPanning = true;
 
@@ -32,17 +32,20 @@ namespace Assets.Scripts
         protected Vector3 targetCameraPos;
 
         protected DebugLogManager debugConsole;
+        protected Camera cam;
 
         protected void Awake()
         {
             transform.position = defaultCameraPosition;
             targetCameraPos = defaultCameraPosition;
+            cam = GetComponent<Camera>();
             debugConsole = FindObjectOfType<DebugLogManager>();
         }
 
         protected void LateUpdate()
         {
             ProcessKeyControls();
+            ProcessCameraZoom();
             ProcessCameraSmoothMove();
         }
 
@@ -73,19 +76,12 @@ namespace Assets.Scripts
             float dx = Input.GetAxis("Horizontal") * xSpeed * 0.02f;
             float dz = Input.GetAxis("Vertical") * ySpeed * 0.02f;
 
-            float dy = Input.GetAxis("Mouse ScrollWheel") * zoomSpd;
-
-            var dVector = new Vector3(dx,dy,dz);
+            var dVector = new Vector3(dx, 0, dz);
             if (dVector.magnitude < 0.005f)
                 return;
 
             Vector3 position = transform.position + dVector;
 
-            if (position.y > maxCameraHeight)
-                position.y = maxCameraHeight;
-            if (position.y < minCameraHeight)
-                position.y = minCameraHeight;
-            
             SmoothMoveCamera(position);
         }
 
@@ -120,6 +116,17 @@ namespace Assets.Scripts
             {
                 transform.position += delta;
             }
+        }
+
+        protected void ProcessCameraZoom()
+        {
+            var delta = Input.GetAxis("Mouse ScrollWheel") * zoomSpd;
+            var newSize = cam.orthographicSize + delta;
+            if (newSize < minCameraDistance)
+                newSize = minCameraDistance;
+            if (newSize > maxCameraDistance)
+                newSize = maxCameraDistance;
+            cam.orthographicSize = newSize;
         }
 
         public void SmoothMoveCamera(Vector3 target)
