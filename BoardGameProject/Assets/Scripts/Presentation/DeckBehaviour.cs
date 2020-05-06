@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.DataModel;
+﻿using System;
+using Assets.Scripts.DataModel;
 using Assets.Scripts.Debug;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,10 +8,11 @@ namespace Assets.Scripts.Presentation
 {
     public class DeckBehaviour : TSOBehaviour
     {
+        protected override Type ModelType => typeof(Deck);
         public new Deck ModelData
         {
-            get { return (Deck)_modelData; }
-            set { _modelData = value; }
+            get => (Deck)_modelData;
+            set => _modelData = value;
         }
 
         protected CardGenerator cg;
@@ -35,13 +37,13 @@ namespace Assets.Scripts.Presentation
         {
             Card c = ModelData.TakeTopCard();
             Vector3 pos = new Vector3(root.position.x + 1.2f, 0, root.position.z);
-            cg.SpawnCard(c, Area.Table, pos);
+            cg.SpawnCard(c, table.ModelData.uid, pos);
             if (ModelData.CardCount < 2)
             {
                 // Remove deck and replace with one cardData
                 Card lastCard = ModelData.TakeTopCard();
                 dndm.OnDragStart -= EnableDropSite;
-                cg.SpawnCard(lastCard, Area.Table, new Vector3(root.position.x, table.transform.position.y, root.position.z));
+                cg.SpawnCard(lastCard, table.ModelData.uid, new Vector3(root.position.x, table.transform.position.y, root.position.z));
                 Despawn();
             }
         }

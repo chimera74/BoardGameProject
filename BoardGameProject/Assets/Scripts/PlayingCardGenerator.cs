@@ -54,7 +54,7 @@ namespace Assets.Scripts
         {
             var value = (PlayingCardValue) UnityEngine.Random.Range(0, 52);
             PlayingCard cardData = new PlayingCard() {Value = value};
-            SpawnCard(cardData, Area.Table, pos);
+            SpawnCard(cardData, table.ModelData.uid, pos);
         }
 
 
@@ -70,7 +70,7 @@ namespace Assets.Scripts
             if (shuffle)
                 newDeck.Shuffle();
 
-            GameObject go = Instantiate(deckPrefab, pos, Quaternion.identity, table);
+            GameObject go = Instantiate(deckPrefab, pos, Quaternion.identity, table.transform);
             var pcDeck = go.GetComponentInChildren<PlayingCardDeckBehaviour>();
             pcDeck.ModelData = newDeck;
             return go;

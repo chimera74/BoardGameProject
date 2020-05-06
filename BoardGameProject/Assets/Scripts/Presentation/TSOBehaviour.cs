@@ -1,15 +1,16 @@
-﻿using Assets.Scripts.DataModel;
+﻿using System;
+using Assets.Scripts.DataModel;
 using UnityEngine;
 
 namespace Assets.Scripts.Presentation
 {
     public class TSOBehaviour : BaseObjectBehaviour
     {
-
+        protected override Type ModelType => typeof(BaseObject);
         public new TwoSidedObject ModelData
         {
-            get { return (TwoSidedObject) _modelData; }
-            set { _modelData = value; }
+            get => (TwoSidedObject) _modelData;
+            set => _modelData = value;
         }
 
         protected override void Start()

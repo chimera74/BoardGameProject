@@ -31,8 +31,10 @@ namespace Assets.Scripts.Presentation
         protected BaseObjectBehaviour beh;
         protected Animator anim;
         protected Table table;
+        protected HandPlane handPlane;
         protected Transform root;
-        protected Transform handPlane;
+        protected Transform handPlaneTransform;
+        protected UIDManager uidm;
         
         protected SimpleActionQueue afterSnapActions;
 
@@ -42,12 +44,14 @@ namespace Assets.Scripts.Presentation
 
         protected virtual void Awake()
         {
+            uidm = FindObjectOfType<UIDManager>();
             afterSnapActions = new SimpleActionQueue();
             root = transform.parent;
             anim = GetComponent<Animator>();
             table = FindObjectOfType<Table>();
+            handPlane = FindObjectOfType<HandPlane>();
+            handPlaneTransform = handPlane.transform;
             beh = GetComponent<BaseObjectBehaviour>();
-            handPlane = GameObject.Find("HandPlane").transform;
         }
 
         protected virtual void Start()
@@ -146,7 +150,7 @@ namespace Assets.Scripts.Presentation
         public virtual void MoveToModelPosition()
         {
             MoveToModelCameraSpace();
-            float yPos = _model.Area == Area.Table ? table.transform.position.y : handPlane.position.y;
+            float yPos = _model.parentUID == table.ModelData.uid ? table.transform.position.y : handPlaneTransform.position.y;
             targetPosition = new Vector3(_model.Position.x, yPos, _model.Position.y);
             movementType = MoveType.Snap;
         }
@@ -157,20 +161,27 @@ namespace Assets.Scripts.Presentation
         private void MoveToModelCameraSpace()
         {
             // if current camera space does not match model - fix
-            if ((root.parent == null) != (_model.Area == Area.Table))
+            long hierarchyRootUID = uidm.GetRootParentUIDByHierarchy(beh);
+            long modelRootUID = uidm.GetRootParentUID(beh.ModelData);
+            if (hierarchyRootUID != modelRootUID)
             {
+                UnityEngine.Debug.Log("Root parent UIDs do not match: " + hierarchyRootUID + " and " + modelRootUID);
                 // get current camera
-                Camera currentCamera;
-                Camera otherCamera;
-                if (root.parent == null)
+                Camera currentCamera = null;
+                Camera otherCamera = null;
+                if (hierarchyRootUID == table.ModelData.uid)
                 {
                     currentCamera = RaycastingHelper.instance.mainCamera;
                     otherCamera = RaycastingHelper.instance.handCamera;
-                }
-                else
+                } else if (hierarchyRootUID == handPlane.ModelData.uid)
                 {
                     currentCamera = RaycastingHelper.instance.handCamera;
                     otherCamera = RaycastingHelper.instance.mainCamera;
+                }
+                else
+                {
+                    currentCamera = RaycastingHelper.instance.mainCamera;
+                    otherCamera = RaycastingHelper.instance.handCamera;
                 }
 
                 // get relative position to current camera
@@ -181,8 +192,7 @@ namespace Assets.Scripts.Presentation
 
                 // move
                 root.position = newPos;
-                
-                root.SetParent((_model.Area == Area.Table) ? null : handPlane);
+                root.SetParent(uidm.GetBehaviourByUID(beh.ModelData.parentUID).transform);
             }
         }
 

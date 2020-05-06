@@ -8,13 +8,16 @@ namespace Assets.Scripts.Presentation
     public class BaseObjectBehaviour : ModelContainerBehaviour, IPointerClickHandler
     {
         [Header("Dragging Settings")]
+        public bool isDraggable = false;
         public float dragTriggerDelta = 0.05f;
 
         [Header("Components")]
         public GameObject dropSite;
 
         [Header("Other")]
+
         protected Table table;
+        protected HandPlane handPlane;
 
         protected Collider handPlaneCollider;
         protected Transform root;
@@ -24,9 +27,11 @@ namespace Assets.Scripts.Presentation
         protected BaseObjectAppearance apprn;
         protected Collider coll;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             table = FindObjectOfType<Table>();
+            handPlane = FindObjectOfType<HandPlane>();
             root = transform.parent.GetComponent<Transform>();
             rend = GetComponent<Renderer>();
             dndm = FindObjectOfType<DragAndDropManager>();
@@ -37,12 +42,13 @@ namespace Assets.Scripts.Presentation
 
         }
 
-        protected virtual void Start()
+        protected override void Start()
         {
+            base.Start();
             dndm.OnDragStart += EnableDropSite;
             dndm.OnDragStop += DisableDropSite;
             DisableDropSite();
-            apprn.UpdateAppearance();
+            apprn?.UpdateAppearance();
         }
 
         protected virtual void Update()
@@ -161,7 +167,7 @@ namespace Assets.Scripts.Presentation
                 if (isSwitching)
                 {
                     root.position = newPos;
-                    root.SetParent(_isInHandPlane ? handPlaneCollider.transform : null);
+                    root.SetParent(_isInHandPlane ? handPlaneCollider.transform : table.transform);
                 }
 
                 animScr.targetPosition = newPos;
@@ -170,8 +176,11 @@ namespace Assets.Scripts.Presentation
 
         protected virtual void StartDrag()
         {
+            if (!isDraggable)
+                return;
+
             _isDragMode = true;
-            _isInHandPlane = ModelData.Area == Area.Hand;
+            _isInHandPlane = ModelData.parentUID == handPlane.ModelData.uid;
             dndm.TriggerOnDragStart();
             DisableDropSite();
             animScr.StartHover();
@@ -183,13 +192,13 @@ namespace Assets.Scripts.Presentation
             if (!_isDragMode)
                 return;
 
-            Area area;
+            long rootParent;
             RaycastHit? handPlaneHit = RaycastingHelper.instance.RaycastCursorFromHandCameraTo(handPlaneCollider);
             Vector3 hitPoint;
             if (handPlaneHit != null)
             {
                 hitPoint = handPlaneHit.Value.point;
-                area = Area.Hand;
+                rootParent = handPlane.ModelData.uid;
             }
             else
             {
@@ -197,7 +206,7 @@ namespace Assets.Scripts.Presentation
                 if (tableHit != null)
                 {
                     hitPoint = tableHit.Value.point;
-                    area = Area.Table;
+                    rootParent = table.ModelData.uid;
                 }
                 else
                 {
@@ -208,7 +217,7 @@ namespace Assets.Scripts.Presentation
             }
 
             var dropPos = new Vector3(hitPoint.x, table.transform.position.y, hitPoint.z);
-            if (!dndm.PutAt(this, area, dropPos))
+            if (!dndm.PutAt(this, (long) rootParent, dropPos))
                 animScr.MoveToModelPosition();
 
             endDrag();

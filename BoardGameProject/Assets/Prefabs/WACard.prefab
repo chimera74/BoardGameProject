@@ -128,8 +128,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8057340dc10eb14bb2116201fa7a6bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDraggable: 1
   dragTriggerDelta: 0.2
   dropSite: {fileID: 1868094446694068}
+  cardPreset: {fileID: 0}
 --- !u!114 &7861644481306295585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,3 +303,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c14caf8bf8f7fcb478529464b89dd8e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectRoot: {fileID: 3355550063283399995}

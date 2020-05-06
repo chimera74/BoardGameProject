@@ -13,6 +13,7 @@ namespace Assets.Scripts.Presentation
         public float cardXOffset = 0.3f;
         public float cardZOffset = 0.0001f;
 
+        protected override Type ModelType => typeof(Hand);
         public new Hand ModelData
         {
             get { return (Hand) _modelData; }
@@ -21,14 +22,16 @@ namespace Assets.Scripts.Presentation
 
         protected CardGenerator cg;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _modelData = new Hand();
             cg = FindObjectOfType<CardGenerator>();
         }
 
-        protected virtual void Start()
+        protected override void Start()
         {
+            base.Start();
             ModelData.OnCardAdded += RearrangeCardsToModel;
             ModelData.OnCardRemoved += RearrangeCardsToModel;
             ModelData.OnRearranged += RearrangeCardsToModel;

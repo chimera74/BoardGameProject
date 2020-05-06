@@ -128,6 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08b8165079e6624d9a4c0e394666499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  staticUID: 0
+  isDraggable: 0
   dragTriggerDelta: 0.2
   dropSite: {fileID: 1868094446694068}
 --- !u!114 &7861644481306295585
@@ -301,3 +303,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c14caf8bf8f7fcb478529464b89dd8e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectRoot: {fileID: 114375593451346244}

@@ -16,8 +16,9 @@ namespace Assets.Scripts.Presentation
         protected BaseObjectAppearance apprn;
         protected CardInHandAnimation animScr;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             rend = GetComponent<Renderer>();
             animScr = GetComponent<CardInHandAnimation>();
             apprn = GetComponent<BaseObjectAppearance>();

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.DataModel;
+﻿using System;
+using Assets.Scripts.DataModel;
 using Assets.Scripts.Debug;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace Assets.Scripts.Presentation
 {
     public class CardBehaviour : TSOBehaviour
     {
+        protected override Type ModelType => typeof(Card);
         public new Card ModelData
         {
             get { return (Card) _modelData; }

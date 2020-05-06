@@ -12,17 +12,22 @@ namespace Assets.Scripts
     {
 
         public float yDelta = 0.0001f;
+        public float baseY = 0.0002f;
 
         private LinkedList<CardBehaviour> cards;
 
-        protected Transform table;
-        protected Transform handPlane;
+        protected Table table;
+        protected HandPlane handPlane;
+        protected Transform tableTransform;
+        protected Transform handPlaneTransform;
 
         public void Awake()
         {
             cards = new LinkedList<CardBehaviour>();
-            table = GameObject.Find("Table").transform;
-            handPlane = GameObject.Find("HandPlane").transform;
+            table = FindObjectOfType<Table>();
+            tableTransform = table.transform;
+            handPlane = FindObjectOfType<HandPlane>();
+            handPlaneTransform = handPlane.transform;
         }
 
         public void StartTracking(CardBehaviour card)
@@ -46,19 +51,22 @@ namespace Assets.Scripts
 
         private void SetCardYPosition(CardBehaviour card, int order)
         {   
-            float yPos = yDelta * order;
+            float yPos = baseY + yDelta * order;
             if (yPos < yDelta)
                 yPos = yDelta;
-            switch (card.ModelData.Area)
+            if (card.ModelData.parentUID == handPlane.ModelData.uid)
             {
-                case Area.Hand:
-                    yPos += handPlane.position.y;
-                    break;
-                case Area.Table:
-                default:
-                    yPos += table.position.y;
-                    break;
+                yPos += handPlaneTransform.position.y;
             }
+            else if (card.ModelData.parentUID == table.ModelData.uid)
+            {
+                yPos += tableTransform.position.y;
+            }
+            else
+            {
+                yPos += tableTransform.position.y;
+            }
+            
             card.transform.parent.position = new Vector3(card.transform.parent.position.x, yPos, card.transform.parent.position.z);
         }
 

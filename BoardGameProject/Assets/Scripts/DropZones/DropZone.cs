@@ -5,6 +5,9 @@ namespace Assets.Scripts.DropZones
 {
     public abstract class DropZone : MonoBehaviour
     {
+
+        public ModelContainerBehaviour objectRoot;
+
         /// <summary>
         /// Method that processes dropping an object at this drop site.
         /// </summary>

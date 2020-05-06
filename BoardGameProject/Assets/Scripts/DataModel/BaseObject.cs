@@ -6,13 +6,14 @@ namespace Assets.Scripts.DataModel
     [Serializable]
     public class BaseObject
     {
+        
         public event Action OnPositionChanged;
 
-        public long UID { get; }
+        public long uid;
 
         private Vector2 _position;
         public Vector2 Position {
-            get { return _position; }
+            get => _position;
             set
             {
                 _position = value;
@@ -21,22 +22,34 @@ namespace Assets.Scripts.DataModel
         }
 
         /// <summary>
-        /// Area which this object belongs to. I.e cardData being in hand or on a table.
+        /// UID of the parent that this object belongs to.
         /// </summary>
-        public Area Area { get; set; }
+        public long parentUID;
         public Player Owner { get; set; }
 
         public BaseObject()
         {
-            UID = 0; // TODO ID generator
+            uid = 0; // TODO ID generator
             Position = Vector2.zero;
             Owner = null;
         }
-    }
 
-    public enum Area
-    {
-        Table,
-        Hand
+        protected bool Equals(BaseObject other)
+        {
+            return uid == other.uid;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((BaseObject)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return uid.GetHashCode();
+        }
     }
 }

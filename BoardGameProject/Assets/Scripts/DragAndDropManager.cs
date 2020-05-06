@@ -12,6 +12,9 @@ namespace Assets.Scripts
         public event Action OnDragStop;
 
         protected Transform handPlane;
+        protected UIDManager uidm;
+        protected Table table;
+        protected ModelContainerBehaviour hand;
 
         public void TriggerOnDragStart()
         {
@@ -25,8 +28,10 @@ namespace Assets.Scripts
 
         protected void Awake()
         {
-            
+            uidm = FindObjectOfType<UIDManager>();
             handPlane = GameObject.Find("HandPlane").transform;
+            hand = handPlane.GetComponent<ModelContainerBehaviour>();
+            table = FindObjectOfType<Table>();
         }
 
         /// <summary>
@@ -57,20 +62,24 @@ namespace Assets.Scripts
         /// <returns>
         /// True if object was accepted, otherwise - false.
         /// </returns>
-        public bool PutAt(BaseObjectBehaviour obj, Area area, Vector3 pos)
+        public bool PutAt(BaseObjectBehaviour obj, long parentUID, Vector3 pos)
         {
             TriggerOnDragStart();
             bool res = false;
             RaycastHit hit;
-            switch (area)
+            var root = uidm.GetRootParentUID(parentUID);
+
+            // TODO: find the root parent
+            if (root == hand.ModelData.uid)
             {
-                case Area.Hand:
-                    res = RaycastingHelper.RaycastToHandDropZones(out hit, pos, handPlane.position);
-                    break;
-                case Area.Table:
-                default:
-                    res = RaycastingHelper.RaycastToTableDropZones(out hit, pos);
-                    break;
+                res = RaycastingHelper.RaycastToHandDropZones(out hit, pos, handPlane.position);
+            } else if (root == table.ModelData.uid)
+            {
+                res = RaycastingHelper.RaycastToTableDropZones(out hit, pos);
+            }
+            else
+            {
+                res = RaycastingHelper.RaycastToTableDropZones(out hit, pos);
             }
             
             TriggerOnDragStop();
