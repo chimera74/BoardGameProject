@@ -12,7 +12,7 @@ namespace Assets.Scripts
     {
 
         public float yDelta = 0.0001f;
-        public float baseY = 0.0002f;
+        public float baseY = 0.0005f;
 
         private LinkedList<CardBehaviour> cards;
 

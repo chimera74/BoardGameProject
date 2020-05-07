@@ -150,7 +150,8 @@ namespace Assets.Scripts.Presentation
         public virtual void MoveToModelPosition()
         {
             MoveToModelCameraSpace();
-            float yPos = _model.parentUID == table.ModelData.uid ? table.transform.position.y : handPlaneTransform.position.y;
+            //float yPos = _model.parentUID == table.ModelData.uid ? table.transform.position.y : handPlaneTransform.position.y;
+            float yPos = uidm.GetBehaviourByUID(_model.parentUID).transform.position.y;
             targetPosition = new Vector3(_model.Position.x, yPos, _model.Position.y);
             movementType = MoveType.Snap;
         }
@@ -192,8 +193,8 @@ namespace Assets.Scripts.Presentation
 
                 // move
                 root.position = newPos;
-                root.SetParent(uidm.GetBehaviourByUID(beh.ModelData.parentUID).transform);
             }
+            root.SetParent(uidm.GetBehaviourByUID(beh.ModelData.parentUID).transform);
         }
 
         public virtual void StartCursorFollow()

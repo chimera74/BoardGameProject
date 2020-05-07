@@ -55,7 +55,7 @@ namespace Assets.Scripts
 
         public ModelContainerBehaviour GetBehaviourByUID(long uid)
         {
-            return uidMap[new BaseObject() { uid = uid }];
+            return uidMap.Single(k => k.Key.uid == uid).Value;
         }
 
         /// <summary>

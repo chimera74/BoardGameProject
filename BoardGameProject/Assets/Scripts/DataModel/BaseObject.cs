@@ -29,9 +29,9 @@ namespace Assets.Scripts.DataModel
 
         public BaseObject()
         {
-            uid = 0; // TODO ID generator
-            Position = Vector2.zero;
-            Owner = null;
+            // uid = 0; // TODO ID generator
+            // Position = Vector2.zero;
+            // Owner = null;
         }
 
         protected bool Equals(BaseObject other)

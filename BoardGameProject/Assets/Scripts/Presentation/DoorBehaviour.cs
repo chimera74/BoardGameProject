@@ -8,15 +8,47 @@ using UnityEngine;
 
 namespace Assets.Scripts.Presentation
 {
-    public class DoorBehaviour : ActionSlotBehaviour
+    public class DoorBehaviour : ModelContainerBehaviour
     {
 
-        public override void PutCard(WACardBehaviour card)
+        protected override Type ModelType => typeof(Door);
+        public new Door ModelData
         {
-            card.ModelData.parentUID = ModelData.uid;
-            ModelData.cardInSlot = card.ModelData;
-            card.ModelData.Position = ModelData.Position;
-            // TODO open building
+            get => (Door)_modelData;
+            set => _modelData = value;
+        }
+
+        protected CardSlotBehaviour slotBeh;
+        protected BuildingBehaviour building;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            building = transform.parent.GetComponent<BuildingBehaviour>();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            slotBeh = GetComponentInChildren<CardSlotBehaviour>();
+            slotBeh.ModelData.OnPutCard += OpenBuilding;
+            slotBeh.ModelData.OnRemoveCard += CloseBuilding;
+        }
+
+        public void OpenBuilding()
+        {
+            building.ModelData.Open();
+        }
+
+        public void CloseBuilding()
+        {
+            building.ModelData.Close();
+        }
+
+        protected virtual void OnDestroy()
+        {
+            slotBeh.ModelData.OnPutCard -= OpenBuilding;
+            slotBeh.ModelData.OnRemoveCard -= CloseBuilding;
         }
     }
 }
